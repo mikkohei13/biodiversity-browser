@@ -29,7 +29,7 @@
 			</div>
 
 
-		<script src="main.js">
+		<script src="app.js">
 		</script>
 	</body>
 </html>
