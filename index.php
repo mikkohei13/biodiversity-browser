@@ -6,15 +6,22 @@
 		<title>Biodiversity Browser</title>
 
 		<style>
-		.bar {
+		.bar
+		{
 			display: block;
 			background-color: #d00;
 			height: 1em;
 			margin: 2px;
 		}
+		#container
+		{
+			 width:100%;
+			 height:400px;
+		}
 		</style>
 
-	    <script src="http://code.jquery.com/jquery-3.1.1.min.js">
+	    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+	    <script src="node_modules/highcharts/highcharts.js"></script>
 
 		</script>
 	</head>
@@ -25,7 +32,7 @@
 			<div id="results">
 				<h2 id="query"></h2>
 				<span id="total"></span> records
-				<div id="chart"></div>
+				<div id="container"></div>
 			</div>
 
 

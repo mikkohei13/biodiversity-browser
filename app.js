@@ -9,7 +9,7 @@ Check if return exact matches or partial matches
 $(document).ready(function() {
 	$("#query").text("Total");
 	getAll();
-	let debugName = "Parus major"; dataQuery(debugName); $("#query").text("Debugging with " + debugName); // DEBUG
+	let debugName = "Luscinia luscinia"; dataQuery(debugName); $("#query").text("Debugging with " + debugName); // DEBUG
 });
 
 $("#species").keypress(function(event) {
@@ -73,7 +73,6 @@ function dataQuery(species) {
 function printMontlhyChart(observationsPerMonth)
 {
 	console.log("-----");
-	console.log(observationsPerMonth.length);
 	let html = "<!-- Monthly chart: -->\n";
 
 	for (var m = 1; m <= 12; m++) {
@@ -81,15 +80,17 @@ function printMontlhyChart(observationsPerMonth)
 		let width;
 
 		// Handle missing months
-		if (undefined == count)
+/*		if (undefined == count)
 		{
 			count = 0;
 		}
-		width = count;
+		*/
+		width = count / 100;
 
-		html = html + "<span style='width: " + width / 100 + "px;' class='bar month" + m + "'>&nbsp;</span>" + count + "\n";
+		html = html + "<span style='width: " + width + "px;' class='bar month" + m + "'>&nbsp;</span>" + count + "\n";
 	}
-	$("#chart").html(html);
+	console.log(html);
+	$("#container").html(html);
 }
 
 function getObservationsPerMonth(dataobject)
@@ -99,12 +100,32 @@ function getObservationsPerMonth(dataobject)
 
 	console.log(monthlyBuckets);
 
+	// Note this can't handle missing months
 	for (var i = monthlyBuckets.length - 1; i >= 0; i--) {
 		monthlyObservations[monthlyBuckets[i].key] = monthlyBuckets[i].doc_count;
 	}
 
-	console.log(monthlyObservations);
+//	console.log(monthlyObservations);
+	monthlyObservations = fillMissingMonths(monthlyObservations);
+
 	return monthlyObservations;
+}
+
+// Fills in missing (zero) monthly values and makes sure that the array is properly sorted
+function fillMissingMonths(monthlyObservations)
+{
+	let filledMonthlyObservations = {};
+	for (var m = 1; m <= 12; m++) {
+		if (undefined == monthlyObservations[m])
+		{
+			filledMonthlyObservations[m] = 0;
+		}
+		else
+		{
+			filledMonthlyObservations[m] = monthlyObservations[m];
+		}
+	}
+	return filledMonthlyObservations;
 }
 
 function getSpecies(species) {
@@ -138,19 +159,3 @@ function getAll(species) {
 		$("#total").text(countFormatted);
 	});
 }
-
-/*
-
-Javascript-based UI for making basic analysis of the data
-
-Species:
-Record count: absolute & proportion of class/order
-Year histogram: absolute & relative to class/order
-Month histogram of all years
-
-Map:
-Species on a map, clustered
-Species count of selected taxon on a map, clustered
-
-
-*/
