@@ -7,6 +7,10 @@ TODO:
 Check if return exact matches or partial matches
 Search button
 Refactor: level -> rank
+älä ketjuta muuttujia, vaan käytä ainakin lajissa globalia?
+handle incorrect species names
+allow selecting wether to show absolute or poportional data
+allow selecting to which rank to compare to (family, order, class)
 */
 
 var higherTaxonPerMonth;
@@ -34,7 +38,7 @@ $("#species").keypress(function(event) {
 		{
 			$("#query").text(species);
 //			getTaxon(species);
-			getComparison(species, "class");
+			getComparison(species, "order");
 		}
 	}
 });
@@ -70,11 +74,11 @@ function getComparison(species, comparisonLevel)
 		let comparisonTaxon = elasticData.hits.hits[0]._source[comparisonLevel];
 		console.log(comparisonTaxon);
 
-		getHigherTaxon(comparisonTaxon, comparisonLevel);
+		getHigherTaxon(comparisonTaxon, comparisonLevel, species);
 	});
 }
 
-function getHigherTaxon(comparisonTaxon, comparisonLevel)
+function getHigherTaxon(comparisonTaxon, comparisonLevel, species)
 {
 	console.log(comparisonLevel);
 	// First get species data
@@ -114,7 +118,7 @@ function getHigherTaxon(comparisonTaxon, comparisonLevel)
 
 		higherTaxonPerMonth = getObservationsPerMonth(elasticData); // Data to global var
 
-		test();
+
 
 		// Show count
 		/*
@@ -123,9 +127,56 @@ function getHigherTaxon(comparisonTaxon, comparisonLevel)
 		$("#total").text(countFormatted);
 		*/
 
+		getSpecies(species);
+
 		
 	});
+}
 
+function getSpecies(species) {
+	let queryData = JSON.stringify({
+    	"query" : {
+        	"term" : {
+        		"species" : species
+        	}
+    	},
+    	"aggregations" : {
+    		"observationsPerMonth" : {
+    			"terms" : {
+    				"field" : "month",
+    				"size" : 12
+    			}
+    		}
+    	}
+	});
+	console.log(queryData);
+
+	$.ajax({
+		method: "POST",
+		url: "http://192.168.56.10:9200/baltic-aves/_search",
+		data: queryData,
+		beforeSend: function (xhr) {
+		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
+		}
+	})
+	.done(function(elasticData) {
+		console.log(elasticData);
+
+		let speciesPerMonth = getObservationsPerMonth(elasticData);
+
+		// Calculate proportion of higher taxon observations
+		for (var m = 1; m <= 12; m++) {
+			speciesPerMonth[m] = speciesPerMonth[m] / higherTaxonPerMonth[m];
+		}
+		console.log(speciesPerMonth);
+
+		printHighchart(speciesPerMonth, species);
+
+		// Show count
+		let count = elasticData.hits.total;
+		let countFormatted = count.toLocaleString();
+		$("#total").text(countFormatted);
+	});
 }
 
 // Get summary of all data
@@ -176,7 +227,8 @@ function getTaxon(species) {
 		console.log(elasticData);
 
 		// Highcharts
-		printHighchart(elasticData, species);
+		let observationsPerMonth = getObservationsPerMonth(elasticData);
+		printHighchart(observationsPerMonth, species);
 
 		// Show count
 		let count = elasticData.hits.total;
@@ -189,9 +241,9 @@ function getTaxon(species) {
 // FORMAT DATA
 
 // Create a Highchart
-function printHighchart(elasticData, species)
+function printHighchart(observationsPerMonth, species)
 {
-	let observationsPerMonth = getObservationsPerMonth(elasticData);
+//	let observationsPerMonth = getObservationsPerMonth(elasticData); // ABBA
 	let data = getHighchartsDataSeries(observationsPerMonth, species);
 
 	$(function () { 
