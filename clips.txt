@@ -1,0 +1,36 @@
+/*
+function printMontlhyChart(observationsPerMonth)
+{
+	console.log("-----");
+	let html = "<!-- Monthly chart: -->\n";
+
+	for (let m = 1; m <= 12; m++) {
+		let count = observationsPerMonth[m];
+		let width;
+
+		width = count / 100;
+
+		html = html + "<span style='width: " + width + "px;' class='bar month" + m + "'>&nbsp;</span>" + count + "\n";
+	}
+	console.log(html);
+	$("#chart").html(html);
+}
+*/
+
+/*
+function getSpecies(species) {
+	$.ajax({
+		method: "GET",
+		url: "http://192.168.56.10:9200/baltic-aves/_search?q=species:" + species,
+		beforeSend: function (xhr) {
+		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
+		}
+	})
+	.done(function(data) {
+//		console.log( data );
+		let count = data.hits.total;
+		let countFormatted = count.toLocaleString();
+		$("#total").text(countFormatted);
+	});
+}
+*/
