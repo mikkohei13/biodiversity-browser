@@ -63,6 +63,8 @@ function dataQuery(species) {
 		let observationsPerMonth = getObservationsPerMonth(dataobject);
 		printMontlhyChart(observationsPerMonth);
 
+		printHighchart(observationsPerMonth, species);
+
 		// Show count
 		let count = dataobject.hits.total;
 		let countFormatted = count.toLocaleString();
@@ -75,7 +77,7 @@ function printMontlhyChart(observationsPerMonth)
 	console.log("-----");
 	let html = "<!-- Monthly chart: -->\n";
 
-	for (var m = 1; m <= 12; m++) {
+	for (let m = 1; m <= 12; m++) {
 		let count = observationsPerMonth[m];
 		let width;
 
@@ -90,7 +92,7 @@ function printMontlhyChart(observationsPerMonth)
 		html = html + "<span style='width: " + width + "px;' class='bar month" + m + "'>&nbsp;</span>" + count + "\n";
 	}
 	console.log(html);
-	$("#container").html(html);
+	$("#chart").html(html);
 }
 
 function getObservationsPerMonth(dataobject)
@@ -158,4 +160,56 @@ function getAll(species) {
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted);
 	});
+}
+
+// Highcharts
+function printHighchart(observationsPerMonth, species)
+{
+	let data = getHighchartsDataSeries(observationsPerMonth, species);
+
+	$(function () { 
+	    var myChart = Highcharts.chart('container', {
+	        chart: {
+	            type: 'bar'
+	        },
+	        title: {
+	            text: 'Test title'
+	        },
+	        xAxis: {
+	            categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+	        },
+	        yAxis: {
+	            title: {
+	                text: 'Observations'
+	            }
+	        },
+	        series: data
+	    });
+	});
+}
+
+
+function getHighchartsDataSeries(observationsPerMonth, seriesName)
+{
+	/*
+	Example:
+		series: [{
+		    name: ''
+		    data: []
+		}]
+	*/
+	let series = [];
+	let data = [];
+
+	for (let m = 1; m <= 12; m++) {
+		data.push(observationsPerMonth[m]);
+	}
+
+	series[0] = {
+		"name" : seriesName,
+		"data" : data
+	};
+
+	console.log(series);
+	return series;
 }
