@@ -14,20 +14,23 @@ refactor
 
 var options = {};
 
+options.indexName = "baltic-aves";
+
+
 // -----------------------------------
 // EVENTS
 
 // Page load
 $(document).ready(function() {
 	$("#query").text("Total");
-	let debugName = "Luscinia luscinia"; getTaxon(debugName); $("#query").text("Debugging with " + debugName); return; // DEBUG
+	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
 	getAll();
 });
 
 // Name search (enter)
 $("#species").keypress(function(event) {
 	if (event.which == 13) {
-		let options.species = $("#species").val();
+		options.species = $("#species").val();
 
 		if (options.species == "")
 		{
@@ -47,6 +50,17 @@ $("#species").keypress(function(event) {
 // -----------------------------------
 // QUERY ELASTIC
 
+function getAjaxParams(queryData) {
+	return {
+		method: "POST",
+		url: "http://192.168.56.10:9200/" + options.indexName + "/_search",
+		data: queryData,
+		beforeSend: function (xhr) {
+		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
+		}
+	}	
+}
+
 function getComparison()
 {
 	// todo: validate taxon rank
@@ -61,14 +75,7 @@ function getComparison()
 	});
 	console.log(queryData);
 
-	$.ajax({
-		method: "POST",
-		url: "http://192.168.56.10:9200/baltic-aves/_search",
-		data: queryData,
-		beforeSend: function (xhr) {
-		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
-		}
-	})
+	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
 		console.log(elasticData);
 
@@ -105,14 +112,7 @@ function getHigherTaxon(comparisonTaxon)
 	let queryData = JSON.stringify(queryObject);
 	console.log(queryData);
 
-	$.ajax({
-		method: "POST",
-		url: "http://192.168.56.10:9200/baltic-aves/_search",
-		data: queryData,
-		beforeSend: function (xhr) {
-		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
-		}
-	})
+	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
 		console.log(elasticData);
 
@@ -154,14 +154,7 @@ function getSpecies() {
 	});
 	console.log(queryData);
 
-	$.ajax({
-		method: "POST",
-		url: "http://192.168.56.10:9200/baltic-aves/_search",
-		data: queryData,
-		beforeSend: function (xhr) {
-		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
-		}
-	})
+	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
 		console.log(elasticData);
 
@@ -200,7 +193,7 @@ function getAll() {
 	});
 }
 
-function getTaxon(options.species) {
+function getTaxon() {
 	let queryData = JSON.stringify({
     	"query" : {
         	"term" : {
@@ -218,14 +211,7 @@ function getTaxon(options.species) {
 	});
 	console.log(queryData);
 
-	$.ajax({
-		method: "POST",
-		url: "http://192.168.56.10:9200/baltic-aves/_search",
-		data: queryData,
-		beforeSend: function (xhr) {
-		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
-		}
-	})
+	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
 		console.log(elasticData);
 
