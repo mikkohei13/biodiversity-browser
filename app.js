@@ -14,8 +14,8 @@ Search button
 // Page load
 $(document).ready(function() {
 	$("#query").text("Total");
+	let debugName = "Luscinia luscinia"; dataQuery(debugName); $("#query").text("Debugging with " + debugName); return; // DEBUG
 	getAll();
-	let debugName = "Luscinia luscinia"; dataQuery(debugName); $("#query").text("Debugging with " + debugName); // DEBUG
 });
 
 // Name search (enter)
@@ -87,10 +87,10 @@ function dataQuery(species) {
 	.done(function(elasticData) {
 		console.log(elasticData);
 
-		let observationsPerMonth = getObservationsPerMonth(elasticData);
+//		let observationsPerMonth = getObservationsPerMonth(elasticData);
 
 		// Highcharts
-		printHighchart(observationsPerMonth, species);
+		printHighchart(elasticData, species);
 
 		// Show count
 		let count = elasticData.hits.total;
@@ -102,44 +102,10 @@ function dataQuery(species) {
 // -----------------------------------
 // FORMAT DATA
 
-function getObservationsPerMonth(elasticData)
+// Create a Highchart
+function printHighchart(elasticData, species)
 {
-	let monthlyBuckets = elasticData.aggregations.observationsPerMonth.buckets;
-	let monthlyObservations = {};
-
-	console.log(monthlyBuckets);
-
-	// Note this can't handle missing months
-	for (var i = monthlyBuckets.length - 1; i >= 0; i--) {
-		monthlyObservations[monthlyBuckets[i].key] = monthlyBuckets[i].doc_count;
-	}
-
-//	console.log(monthlyObservations);
-	monthlyObservations = fillMissingMonths(monthlyObservations);
-
-	return monthlyObservations;
-}
-
-// Fills in missing (zero) monthly values and makes sure that the array is properly sorted
-function fillMissingMonths(monthlyObservations)
-{
-	let filledMonthlyObservations = {};
-	for (var m = 1; m <= 12; m++) {
-		if (undefined == monthlyObservations[m])
-		{
-			filledMonthlyObservations[m] = 0;
-		}
-		else
-		{
-			filledMonthlyObservations[m] = monthlyObservations[m];
-		}
-	}
-	return filledMonthlyObservations;
-}
-
-// Highcharts
-function printHighchart(observationsPerMonth, species)
-{
+	let observationsPerMonth = getObservationsPerMonth(elasticData);
 	let data = getHighchartsDataSeries(observationsPerMonth, species);
 
 	$(function () { 
@@ -174,7 +140,40 @@ function printHighchart(observationsPerMonth, species)
 	});
 }
 
+// Pick monthly values from elastic search results
+function getObservationsPerMonth(elasticData)
+{
+	let monthlyBuckets = elasticData.aggregations.observationsPerMonth.buckets;
+	let monthlyObservations = {};
 
+	// Note this can't handle missing months
+	for (var i = monthlyBuckets.length - 1; i >= 0; i--) {
+		monthlyObservations[monthlyBuckets[i].key] = monthlyBuckets[i].doc_count;
+	}
+
+	monthlyObservations = fillMissingMonths(monthlyObservations);
+
+	return monthlyObservations;
+}
+
+// Fills in missing (zero) monthly values and makes sure that the array is properly sorted
+function fillMissingMonths(monthlyObservations)
+{
+	let filledMonthlyObservations = {};
+	for (var m = 1; m <= 12; m++) {
+		if (undefined == monthlyObservations[m])
+		{
+			filledMonthlyObservations[m] = 0;
+		}
+		else
+		{
+			filledMonthlyObservations[m] = monthlyObservations[m];
+		}
+	}
+	return filledMonthlyObservations;
+}
+
+// Format data into Highchart-compatible data series
 function getHighchartsDataSeries(observationsPerMonth, seriesName)
 {
 	/*
