@@ -11,6 +11,7 @@ Refactor: level -> rank
 handle incorrect species names
 allow selecting wether to show absolute or poportional data
 allow selecting to which rank to compare to (family, order, class)
+refactor
 */
 
 var higherTaxonPerMonth;
@@ -170,7 +171,7 @@ function getSpecies(species) {
 		}
 		console.log(speciesPerMonth);
 
-		printHighchart(speciesPerMonth, species);
+		printHighchart(speciesPerMonth, species, (species + " proportion of ABBA"), "Proportion");
 
 		// Show count
 		let count = elasticData.hits.total;
@@ -228,7 +229,7 @@ function getTaxon(species) {
 
 		// Highcharts
 		let observationsPerMonth = getObservationsPerMonth(elasticData);
-		printHighchart(observationsPerMonth, species);
+		printHighchart(observationsPerMonth, species, species, "Occurrences");
 
 		// Show count
 		let count = elasticData.hits.total;
@@ -241,7 +242,7 @@ function getTaxon(species) {
 // FORMAT DATA
 
 // Create a Highchart
-function printHighchart(observationsPerMonth, species)
+function printHighchart(observationsPerMonth, species, chartTitle, yAxisTitle)
 {
 //	let observationsPerMonth = getObservationsPerMonth(elasticData); // ABBA
 	let data = getHighchartsDataSeries(observationsPerMonth, species);
@@ -252,7 +253,7 @@ function printHighchart(observationsPerMonth, species)
 	            type: 'column'
 	        },
 	        title: {
-	            text: species
+	            text: chartTitle
 	        },
 	        xAxis: {
 //	            categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
@@ -263,7 +264,7 @@ function printHighchart(observationsPerMonth, species)
 	        },
 	        yAxis: {
 	            title: {
-	                text: 'Observations'
+	                text: yAxisTitle
 	            }
 	        },
 	        series: data,
