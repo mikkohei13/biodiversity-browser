@@ -14,7 +14,7 @@ Search button
 // Page load
 $(document).ready(function() {
 	$("#query").text("Total");
-	let debugName = "Luscinia luscinia"; dataQuery(debugName); $("#query").text("Debugging with " + debugName); return; // DEBUG
+	let debugName = "Luscinia luscinia"; getTaxon(debugName); $("#query").text("Debugging with " + debugName); return; // DEBUG
 	getAll();
 });
 
@@ -30,10 +30,8 @@ $("#species").keypress(function(event) {
 		else
 		{
 			$("#query").text(species);
-//			getSpecies(species); // OLD function call
-			dataQuery(species); // NEW function call
+			getTaxon(species); // NEW function call
 		}
-//		console.log(species);
 	}
 });
 
@@ -58,7 +56,7 @@ function getAll() {
 	});
 }
 
-function dataQuery(species) {
+function getTaxon(species) {
 	let queryData = JSON.stringify({
     	"query" : {
         	"term" : {
