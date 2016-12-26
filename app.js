@@ -59,10 +59,12 @@ function dataQuery(species) {
 	.done(function(dataobject) {
 		console.log(dataobject);
 
-		// Show monthly distribution
 		let observationsPerMonth = getObservationsPerMonth(dataobject);
-		printMontlhyChart(observationsPerMonth);
 
+		// Basic chart
+//		printMontlhyChart(observationsPerMonth);
+
+		// Highcharts
 		printHighchart(observationsPerMonth, species);
 
 		// Show count
@@ -173,10 +175,13 @@ function printHighchart(observationsPerMonth, species)
 	            type: 'bar'
 	        },
 	        title: {
-	            text: 'Test title'
+	            text: species
 	        },
 	        xAxis: {
-	            categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+	            categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+	            title: {
+	            	text: 'Month'
+	            }
 	        },
 	        yAxis: {
 	            title: {
