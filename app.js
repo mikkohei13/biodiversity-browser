@@ -7,14 +7,13 @@ TODO:
 Check if return exact matches or partial matches
 Search button
 Refactor: level -> rank
-älä ketjuta muuttujia, vaan käytä ainakin lajissa globalia?
 handle incorrect species names
 allow selecting wether to show absolute or poportional data
 allow selecting to which rank to compare to (family, order, class)
 refactor
 */
 
-var higherTaxonPerMonth;
+var options = {};
 
 // -----------------------------------
 // EVENTS
@@ -29,17 +28,19 @@ $(document).ready(function() {
 // Name search (enter)
 $("#species").keypress(function(event) {
 	if (event.which == 13) {
-		let species = $("#species").val();
-		if (species == "")
+		let options.species = $("#species").val();
+
+		if (options.species == "")
 		{
 			$("#query").text("Total");
 			getAll();
 		}
 		else
 		{
-			$("#query").text(species);
+			$("#query").text(options.species);
 //			getTaxon(species);
-			getComparison(species, "order");
+			options.comparisonRank = "order";
+			getComparison();
 		}
 	}
 });
@@ -47,7 +48,7 @@ $("#species").keypress(function(event) {
 // -----------------------------------
 // QUERY ELASTIC
 
-function getComparison(species, comparisonLevel)
+function getComparison()
 {
 	// todo: validate taxon level
 	// First get species data
@@ -55,7 +56,7 @@ function getComparison(species, comparisonLevel)
 		"size" : 1,
     	"query" : {
         	"term" : {
-        		"species" : species
+        		"species" : options.species
         	}
     	}
 	});
@@ -72,16 +73,18 @@ function getComparison(species, comparisonLevel)
 	.done(function(elasticData) {
 		console.log(elasticData);
 
-		let comparisonTaxon = elasticData.hits.hits[0]._source[comparisonLevel];
+		let comparisonTaxon = elasticData.hits.hits[0]._source[options.comparisonRank];
+		options.comparisonTaxon = comparisonTaxon;
+
 		console.log(comparisonTaxon);
 
-		getHigherTaxon(comparisonTaxon, comparisonLevel, species);
+		getHigherTaxon(comparisonTaxon);
 	});
 }
 
-function getHigherTaxon(comparisonTaxon, comparisonLevel, species)
+function getHigherTaxon(comparisonTaxon)
 {
-	console.log(comparisonLevel);
+	console.log(options.comparisonRank);
 	// First get species data
 	let queryObject = {
     	"query" : {
@@ -98,7 +101,7 @@ function getHigherTaxon(comparisonTaxon, comparisonLevel, species)
     		}
     	}
 	};
-	queryObject.query.term[comparisonLevel] = comparisonTaxon; // Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
+	queryObject.query.term[options.comparisonRank] = comparisonTaxon; // Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
 
 	let queryData = JSON.stringify(queryObject);
 	console.log(queryData);
@@ -117,7 +120,7 @@ function getHigherTaxon(comparisonTaxon, comparisonLevel, species)
 		// Highcharts
 //		printHighchart(elasticData, comparisonTaxon);
 
-		higherTaxonPerMonth = getObservationsPerMonth(elasticData); // Data to global var
+		options.higherTaxonPerMonth = getObservationsPerMonth(elasticData); // Data to global var
 
 
 
@@ -128,17 +131,17 @@ function getHigherTaxon(comparisonTaxon, comparisonLevel, species)
 		$("#total").text(countFormatted);
 		*/
 
-		getSpecies(species);
+		getSpecies();
 
 		
 	});
 }
 
-function getSpecies(species) {
+function getSpecies() {
 	let queryData = JSON.stringify({
     	"query" : {
         	"term" : {
-        		"species" : species
+        		"species" : options.species
         	}
     	},
     	"aggregations" : {
@@ -167,11 +170,11 @@ function getSpecies(species) {
 
 		// Calculate proportion of higher taxon observations
 		for (var m = 1; m <= 12; m++) {
-			speciesPerMonth[m] = speciesPerMonth[m] / higherTaxonPerMonth[m];
+			speciesPerMonth[m] = speciesPerMonth[m] / options.higherTaxonPerMonth[m];
 		}
 		console.log(speciesPerMonth);
 
-		printHighchart(speciesPerMonth, species, (species + " proportion of ABBA"), "Proportion");
+		printHighchart(speciesPerMonth, options.species, (options.species + " proportion of " + options.comparisonTaxon), "Proportion");
 
 		// Show count
 		let count = elasticData.hits.total;
@@ -198,11 +201,11 @@ function getAll() {
 	});
 }
 
-function getTaxon(species) {
+function getTaxon(options.species) {
 	let queryData = JSON.stringify({
     	"query" : {
         	"term" : {
-        		"species" : species
+        		"species" : options.species
         	}
     	},
     	"aggregations" : {
@@ -229,7 +232,7 @@ function getTaxon(species) {
 
 		// Highcharts
 		let observationsPerMonth = getObservationsPerMonth(elasticData);
-		printHighchart(observationsPerMonth, species, species, "Occurrences");
+		printHighchart(observationsPerMonth, options.species, options.species, "Occurrences");
 
 		// Show count
 		let count = elasticData.hits.total;
