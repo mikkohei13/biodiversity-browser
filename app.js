@@ -6,7 +6,6 @@ console.log("=====================");
 TODO:
 Check if return exact matches or partial matches
 Search button
-Refactor: level -> rank
 handle incorrect species names
 allow selecting wether to show absolute or poportional data
 allow selecting to which rank to compare to (family, order, class)
@@ -50,7 +49,7 @@ $("#species").keypress(function(event) {
 
 function getComparison()
 {
-	// todo: validate taxon level
+	// todo: validate taxon rank
 	// First get species data
 	let queryData = JSON.stringify({
 		"size" : 1,
