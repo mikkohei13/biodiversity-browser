@@ -30,13 +30,50 @@ $("#species").keypress(function(event) {
 		else
 		{
 			$("#query").text(species);
-			getTaxon(species); // NEW function call
+//			getTaxon(species);
+			getComparison(species, "family");
 		}
 	}
 });
 
 // -----------------------------------
 // QUERY ELASTIC
+
+function getComparison(species, comparisonLevel)
+{
+	// todo: validate taxon level
+	// First get species data
+	let queryData = JSON.stringify({
+		"size" : 1,
+    	"query" : {
+        	"term" : {
+        		"species" : species
+        	}
+    	}
+	});
+	console.log(queryData);
+
+	$.ajax({
+		method: "POST",
+		url: "http://192.168.56.10:9200/baltic-aves/_search",
+		data: queryData,
+		beforeSend: function (xhr) {
+		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
+		}
+	})
+	.done(function(elasticData) {
+		console.log(elasticData);
+		let comparisonTaxon = elasticData.hits.hits[0]._source.family; // todo: replace with chosen taxon level
+		console.log(comparisonTaxon);
+
+		getComparisonData(comparisonTaxon);
+	});
+}
+
+function getComparisonData(comparisonTaxon)
+{
+	
+}
 
 // Get summary of all data
 function getAll() {
