@@ -31,7 +31,7 @@ $("#species").keypress(function(event) {
 		{
 			$("#query").text(species);
 //			getTaxon(species);
-			getComparison(species, "family");
+			getComparison(species, "class");
 		}
 	}
 });
@@ -63,19 +63,19 @@ function getComparison(species, comparisonLevel)
 	})
 	.done(function(elasticData) {
 		console.log(elasticData);
-		let comparisonTaxon = elasticData.hits.hits[0]._source.family; // todo: replace with chosen taxon level
+
+		let comparisonTaxon = elasticData.hits.hits[0]._source[comparisonLevel];
 		console.log(comparisonTaxon);
 
-		getComparisonData(comparisonTaxon, comparisonLevel);
+		getHigherTaxon(comparisonTaxon, comparisonLevel);
 	});
 }
 
-function getComparisonData(comparisonTaxon, comparisonLevel)
+function getHigherTaxon(comparisonTaxon, comparisonLevel)
 {
 	console.log(comparisonLevel);
 	// First get species data
 	let queryObject = {
-		"size" : 1,
     	"query" : {
         	"term" : {
         		
