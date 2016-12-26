@@ -3,12 +3,22 @@ console.log("Elastic");
 console.log("=====================");
 
 /*
+DOCS:
+Objective: Show occurrence count data on single species, either absolute, or proportional to a higher taxon.
+Most variables are handled with the globar object options. 
+Variables regarding Highcharts are handled with function arguments, so that creating several charts is possible.
+
 TODO:
+Check how getting single species data works
 Check if return exact matches or partial matches
 Search button
-handle incorrect species names
-rerun script on radiobutton change
-refactor
+Handle incorrect species names
+Rerun script on radiobutton change
+Refactor
+Modularize
+Expand to yearly comparison
+Documentation
+License
 */
 
 var options = {};
@@ -162,12 +172,14 @@ function getSpecies() {
 		let speciesPerMonth = getObservationsPerMonth(elasticData);
 
 		// Calculate proportion of higher taxon observations
+		let roundness = 1000000;
 		for (var m = 1; m <= 12; m++) {
 			speciesPerMonth[m] = speciesPerMonth[m] / options.higherTaxonPerMonth[m];
+			speciesPerMonth[m] = Math.round(speciesPerMonth[m] * roundness) / (roundness / 100);
 		}
 		console.log(speciesPerMonth);
 
-		printHighchart(speciesPerMonth, options.species, (options.species + " proportion of " + options.comparisonTaxon), "Proportion");
+		printHighchart(speciesPerMonth, options.species, (options.species + " % of " + options.comparisonTaxon), "%");
 
 		// Show count
 		let count = elasticData.hits.total;
