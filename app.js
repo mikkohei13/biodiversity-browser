@@ -66,13 +66,57 @@ function getComparison(species, comparisonLevel)
 		let comparisonTaxon = elasticData.hits.hits[0]._source.family; // todo: replace with chosen taxon level
 		console.log(comparisonTaxon);
 
-		getComparisonData(comparisonTaxon);
+		getComparisonData(comparisonTaxon, comparisonLevel);
 	});
 }
 
-function getComparisonData(comparisonTaxon)
+function getComparisonData(comparisonTaxon, comparisonLevel)
 {
-	
+	console.log(comparisonLevel);
+	// First get species data
+	let queryObject = {
+		"size" : 1,
+    	"query" : {
+        	"term" : {
+        		
+        	}
+    	},
+    	"aggregations" : {
+    		"observationsPerMonth" : {
+    			"terms" : {
+    				"field" : "month",
+    				"size" : 12
+    			}
+    		}
+    	}
+	};
+	queryObject.query.term[comparisonLevel] = comparisonTaxon; // Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
+
+	let queryData = JSON.stringify(queryObject);
+	console.log(queryData);
+
+	$.ajax({
+		method: "POST",
+		url: "http://192.168.56.10:9200/baltic-aves/_search",
+		data: queryData,
+		beforeSend: function (xhr) {
+		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
+		}
+	})
+	.done(function(elasticData) {
+		console.log(elasticData);
+
+//		let observationsPerMonth = getObservationsPerMonth(elasticData);
+
+		// Highcharts
+		printHighchart(elasticData, comparisonTaxon);
+
+		// Show count
+		let count = elasticData.hits.total;
+		let countFormatted = count.toLocaleString();
+		$("#total").text(countFormatted);
+	});
+
 }
 
 // Get summary of all data
