@@ -29,7 +29,14 @@
 	<body>
 		<h1>Biodiversity Browser</h1>
 
-			<input type="text" id="species"></input>
+			<input type="text" id="species"></input><br>
+
+			Compare to<br>
+			<input type="radio" name="rank" value="no" checked>No comparison<br>
+			<input type="radio" name="rank" value="class">Class<br>
+			<input type="radio" name="rank" value="order">Order<br>
+			<input type="radio" name="rank" value="family">Family<br>
+
 			<div id="results">
 				<h2 id="query"></h2>
 				<span id="total"></span> records

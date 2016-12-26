@@ -7,8 +7,7 @@ TODO:
 Check if return exact matches or partial matches
 Search button
 handle incorrect species names
-allow selecting wether to show absolute or poportional data
-allow selecting to which rank to compare to (family, order, class)
+rerun script on radiobutton change
 refactor
 */
 
@@ -32,17 +31,20 @@ $("#species").keypress(function(event) {
 	if (event.which == 13) {
 		options.species = $("#species").val();
 
-		if (options.species == "")
-		{
+		if (options.species == "") {
 			$("#query").text("Total");
 			getAll();
 		}
-		else
-		{
+		else {
+			let rank = $('input[name=rank]:checked').val();
+			if (rank == "no") {
+				getTaxon(species);		
+			}
+			else {
+				options.comparisonRank = rank;
+				getComparison();
+			}
 			$("#query").text(options.species);
-//			getTaxon(species);
-			options.comparisonRank = "order";
-			getComparison();
 		}
 	}
 });
@@ -63,7 +65,6 @@ function getAjaxParams(queryData) {
 
 function getComparison()
 {
-	// todo: validate taxon rank
 	// First get species data
 	let queryData = JSON.stringify({
 		"size" : 1,
