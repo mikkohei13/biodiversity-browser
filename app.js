@@ -6,7 +6,10 @@ console.log("=====================");
 TODO:
 Check if return exact matches or partial matches
 Search button
+Refactor: level -> rank
 */
+
+var higherTaxonPerMonth;
 
 // -----------------------------------
 // EVENTS
@@ -106,15 +109,21 @@ function getHigherTaxon(comparisonTaxon, comparisonLevel)
 	.done(function(elasticData) {
 		console.log(elasticData);
 
-//		let observationsPerMonth = getObservationsPerMonth(elasticData);
-
 		// Highcharts
-		printHighchart(elasticData, comparisonTaxon);
+//		printHighchart(elasticData, comparisonTaxon);
+
+		higherTaxonPerMonth = getObservationsPerMonth(elasticData); // Data to global var
+
+		test();
 
 		// Show count
+		/*
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted);
+		*/
+
+		
 	});
 
 }
@@ -165,8 +174,6 @@ function getTaxon(species) {
 	})
 	.done(function(elasticData) {
 		console.log(elasticData);
-
-//		let observationsPerMonth = getObservationsPerMonth(elasticData);
 
 		// Highcharts
 		printHighchart(elasticData, species);
