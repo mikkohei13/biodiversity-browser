@@ -85,7 +85,7 @@ function getAjaxParams(queryData) {
 	}	
 }
 
-function getQueryObject(rank, taxon)
+function getQueryJSON(rank, taxon)
 {
 	let queryObject = {
     	"query" :
@@ -128,7 +128,7 @@ function getQueryObject(rank, taxon)
 		"lte" : options.end
 	}
 
-	return queryObject;
+	return JSON.stringify(queryObject);
 }
 
 function getComparison()
@@ -165,9 +165,7 @@ function getComparison()
 function getComparisonHigherTaxon()
 {
 	// First get species data
-	let queryObject = getQueryObject(options.comparisonRank, options.comparisonTaxon);
-
-	let queryData = JSON.stringify(queryObject);
+	let queryData = getQueryJSON(options.comparisonRank, options.comparisonTaxon);
 	console.log(queryData);
 
 	$.ajax(getAjaxParams(queryData))
@@ -183,36 +181,8 @@ function getComparisonHigherTaxon()
 }
 
 function getComparisonSpecies() {
-	let queryObject = {
-    	"query" : {
-    		"bool" : {
-    			"must": [
-    				{
-        	"term" : {
-        		species: options.species
-        	}
-    				},
-    				{
-        	"range" : {
-        		year : { // TODO: parametrize
-        			gte : options.begin,
-        			lte : options.end
-        		}
-        	}
-    				}
-    			]
-    		}
-    	},
-    	"aggregations" : {
-    		"observationsPerMonth" : {
-    			"terms" : {
-    				"field" : options.aggregateType,
-    				"size" : options.periods
-    			}
-    		}
-    	}
-	};
-	let queryData = JSON.stringify(queryObject);
+
+	let queryData = getQueryJSON("species", options.species);
 
 	console.log(queryData);
 
