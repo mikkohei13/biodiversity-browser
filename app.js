@@ -14,13 +14,9 @@ Check if return exact matches or partial matches
 Search button
 Rerun script on radiobutton change
 Modularize
-Expand to yearly comparison
 Documentation
 License
 Ladda
-
-PROBLEM with yearly comparison: 
-- Works now with order only. Must paramterize query rank keys.
 
 */
 
