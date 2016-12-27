@@ -135,11 +135,7 @@ function getComparisonHigherTaxon()
 		    		{
         				"range" :
         				{
-       				 		"year" : // TODO: parametrize
-       				 		{
-       			 				"gte" : options.begin,
-   			     				"lte" : options.end
-        					}
+		        			// This is set automatically below
         				}
     				}
     			]
@@ -157,7 +153,13 @@ function getComparisonHigherTaxon()
     		}
     	}
 	};
-	queryObject.query.bool.must[0].term[options.comparisonRank] = options.comparisonTaxon; // Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
+	// Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
+	queryObject.query.bool.must[0].term[options.comparisonRank] = options.comparisonTaxon;
+	queryObject.query.bool.must[1].range[options.aggregateType] = {
+		"gte" : options.begin,
+		"lte" : options.end
+	}
+
 
 	let queryData = JSON.stringify(queryObject);
 	console.log(queryData);
