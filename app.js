@@ -12,13 +12,12 @@ TODO:
 Check how getting single species data works
 Check if return exact matches or partial matches
 Search button
-Handle incorrect species names
 Rerun script on radiobutton change
-Refactor
 Modularize
 Expand to yearly comparison
 Documentation
 License
+Ladda
 */
 
 var options = {};
@@ -90,6 +89,14 @@ function getComparison()
 	.done(function(elasticData) {
 		console.log(elasticData);
 
+		let count = elasticData.hits.total;
+		if (0 == count)
+		{
+			$("#total").text("Species not found");
+			$("#container").html("");
+			return;
+		}
+
 		options.comparisonTaxon = elasticData.hits.hits[0]._source[options.comparisonRank];
 
 		getComparisonHigherTaxon();
@@ -159,7 +166,7 @@ function getComparisonSpecies() {
 		// Show count
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
-		$("#total").text(countFormatted);
+		$("#total").text(countFormatted + " occurrences");
 	});
 }
 
@@ -177,7 +184,7 @@ function calculateProportions(speciesPerMonth) {
 function getAll() {
 	$.ajax({
 		method: "GET",
-		url: "http://192.168.56.10:9200/baltic-aves/_search",
+		url: "http://192.168.56.10:9200/" + options.indexName + "/_search",
 		beforeSend: function (xhr) {
 		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
 		}
@@ -186,7 +193,7 @@ function getAll() {
 //		console.log( data );
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
-		$("#total").text(countFormatted);
+		$("#total").text(countFormatted + " occurrences");
 		$("#container").html("");
 	});
 }
@@ -213,14 +220,21 @@ function getTaxon() {
 	.done(function(elasticData) {
 		console.log(elasticData);
 
+		let count = elasticData.hits.total;
+		if (0 == count)
+		{
+			$("#total").text("Species not found");
+			$("#container").html("");
+			return;
+		}
+
 		// Highcharts
 		let observationsPerMonth = getObservationsPerMonth(elasticData);
 		printHighchart(observationsPerMonth, options.species, options.species, "Occurrences");
 
 		// Show count
-		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
-		$("#total").text(countFormatted);
+		$("#total").text(countFormatted + " occurrences");
 	});
 }
 
