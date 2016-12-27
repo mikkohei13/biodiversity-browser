@@ -90,23 +90,19 @@ function getComparison()
 	.done(function(elasticData) {
 		console.log(elasticData);
 
-		let comparisonTaxon = elasticData.hits.hits[0]._source[options.comparisonRank];
-		options.comparisonTaxon = comparisonTaxon;
+		options.comparisonTaxon = elasticData.hits.hits[0]._source[options.comparisonRank];
 
-		console.log(comparisonTaxon);
-
-		getHigherTaxon(comparisonTaxon);
+		getComparisonHigherTaxon();
 	});
 }
 
-function getHigherTaxon(comparisonTaxon)
+function getComparisonHigherTaxon()
 {
-	console.log(options.comparisonRank);
 	// First get species data
 	let queryObject = {
     	"query" : {
         	"term" : {
-        		
+        		// This is added later
         	}
     	},
     	"aggregations" : {
@@ -118,36 +114,21 @@ function getHigherTaxon(comparisonTaxon)
     		}
     	}
 	};
-	queryObject.query.term[options.comparisonRank] = comparisonTaxon; // Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
+	queryObject.query.term[options.comparisonRank] = options.comparisonTaxon; // Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
 
 	let queryData = JSON.stringify(queryObject);
 	console.log(queryData);
 
 	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
-		console.log(elasticData);
-
-		// Highcharts
-//		printHighchart(elasticData, comparisonTaxon);
 
 		options.higherTaxonPerMonth = getObservationsPerMonth(elasticData); // Data to global var
+		getComparisonSpecies();
 
-
-
-		// Show count
-		/*
-		let count = elasticData.hits.total;
-		let countFormatted = count.toLocaleString();
-		$("#total").text(countFormatted);
-		*/
-
-		getSpecies();
-
-		
 	});
 }
 
-function getSpecies() {
+function getComparisonSpecies() {
 	let queryData = JSON.stringify({
     	"query" : {
         	"term" : {
