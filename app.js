@@ -1,7 +1,4 @@
 
-console.log("Elastic");
-console.log("=====================");
-
 /*
 DOCS:
 Objective: Show occurrence count data on single species, either absolute, or proportional to a higher taxon.
@@ -9,60 +6,66 @@ Most variables are handled with the globar object options.
 Variables regarding Highcharts are handled with function arguments, so that creating several charts is possible.
 
 TODO:
-Check how getting single species data works
-Check if return exact matches or partial matches
-Search button
-Rerun script on radiobutton change
 Modularize
 Documentation
 License
 Ladda
 'use strict';
+cache Aves
+stats of data source
+autocomplete species name
 
 */
 
-var options = {};
+let options = {};
 
-options.indexName = "baltic-aves";
-options.aggregateType = "year";
-//options.aggregateType = "month";
-
-if ("year" == options.aggregateType)
+function doInit()
 {
-	options.periods = 52;
-	options.begin = 1963;
-	options.end = options.begin + options.periods - 1;
-}
-else if ("month" == options.aggregateType)
-{
-	options.periods = 12;
-	options.begin = 1;
-	options.end = options.begin + options.periods - 1;
-}
+	options.indexName = "baltic-aves";
 
+	let aggrType = $('input[name=aggrtype]:checked').val();
+
+	if ("year" == aggrType)
+	{
+		options.aggregateType = "year";
+		options.periods = 52;
+		options.begin = 1963;
+		options.end = options.begin + options.periods - 1;
+	}
+	else
+	{
+		options.aggregateType = "month";
+		options.periods = 12;
+		options.begin = 1;
+		options.end = options.begin + options.periods - 1;
+	}
+}
 
 // -----------------------------------
 // EVENTS
 
 // Page load
 $(document).ready(function() {
+	doInit();
 	$("#query").text("Total");
-	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
+//	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
 	getAll();
 });
 
 // Species search (enter)
 $("#species").keypress(function(event) {
 	if (event.which == 13) {
-		doSpeciesSearch();
 		$("#ladda").html("<img src='media/spinner.svg'>");
+		doInit();
+		doSpeciesSearch();
 	}
 });
 
 // Species search (button)
 $( "#search" ).click(function() {
-	doSpeciesSearch();
 	$("#ladda").html("<img src='media/spinner.svg'>");
+	doInit();
+	doSpeciesSearch();
 });
 
 function doSpeciesSearch()
@@ -159,11 +162,9 @@ function getComparison()
         	}
     	}
 	});
-	console.log(queryData);
 
 	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
-		console.log(elasticData);
 
 		let count = elasticData.hits.total;
 		if (0 == count)
@@ -183,13 +184,9 @@ function getComparisonHigherTaxon()
 {
 	// First get species data
 	let queryData = getQueryJSON(options.comparisonRank, options.comparisonTaxon);
-	console.log(queryData);
 
 	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
-
-		console.log("HERE");
-		console.log(elasticData);
 
 		options.higherTaxonPerMonth = getObservationsPerMonth(elasticData); // Data to global var
 		getComparisonSpecies();
@@ -201,15 +198,10 @@ function getComparisonSpecies() {
 
 	let queryData = getQueryJSON("species", options.species);
 
-	console.log(queryData);
-
 	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
-		console.log(elasticData);
 
 		speciesPerMonth = getObservationsPerMonth(elasticData);
-		console.log("LOG");
-		console.log(speciesPerMonth);
 
 		speciesPerMonth = calculateProportions(speciesPerMonth);
 
@@ -243,7 +235,6 @@ function getAll() {
 		}
 	})
 	.done(function(elasticData) {
-//		console.log( data );
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted + " occurrences");
@@ -267,11 +258,9 @@ function getTaxon() {
     		}
     	}
 	});
-	console.log(queryData);
 
 	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
-		console.log(elasticData);
 
 		let count = elasticData.hits.total;
 		if (0 == count)
@@ -297,9 +286,6 @@ function getTaxon() {
 // Create a Highchart
 function printHighchart(observationsPerMonth, species, chartTitle, yAxisTitle)
 {
-	console.log(observationsPerMonth);
-
-//	let observationsPerMonth = getObservationsPerMonth(elasticData); // ABBA
 	let data = getHighchartsDataSeries(observationsPerMonth, species);
 
 	let categories = [];
@@ -307,7 +293,6 @@ function printHighchart(observationsPerMonth, species, chartTitle, yAxisTitle)
 	for (let m = options.begin; m <= options.end; m++) {
 		categories.push(m);
 	}
-	console.log(categories);
 
 	$(function () { 
 	    var myChart = Highcharts.chart('container', {

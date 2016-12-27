@@ -66,10 +66,16 @@
 
 			<div id="comparison">
 				Compare to<br>
-				<input type="radio" name="rank" value="no" checked>No comparison<br>
-				<input type="radio" name="rank" value="class">Class<br>
-				<input type="radio" name="rank" value="order">Order<br>
-				<input type="radio" name="rank" value="family">Family<br>
+				<label><input type="radio" name="rank" value="no" checked>No comparison</label><br>
+				<label><input type="radio" name="rank" value="class">Class</label><br>
+				<label><input type="radio" name="rank" value="order">Order</label><br>
+				<label><input type="radio" name="rank" value="family">Family</label>
+			</div>
+
+			<div id="aggrtype">
+				Aggregate by<br>
+				<label><input type="radio" name="aggrtype" value="year" checked>Year</label><br>
+				<label><input type="radio" name="aggrtype" value="month">Month</label>
 			</div>
 
 		</div>
