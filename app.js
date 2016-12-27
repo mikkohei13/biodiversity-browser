@@ -121,9 +121,23 @@ function getComparisonHigherTaxon()
 	// First get species data
 	let queryObject = {
     	"query" : {
+    		"bool" : {
+    			"must": [
+    				{
         	"term" : {
-        		// This is added later
+        		order: options.comparisonTaxon // TODO: set automatically below
         	}
+    				},
+    				{
+        	"range" : {
+        		year : { // TODO: parametrize
+        			gte : options.begin,
+        			lte : options.end
+        		}
+        	}
+    				}
+    			]
+    		}
     	},
     	"aggregations" : {
     		"observationsPerMonth" : {
@@ -134,13 +148,16 @@ function getComparisonHigherTaxon()
     		}
     	}
 	};
-	queryObject.query.term[options.comparisonRank] = options.comparisonTaxon; // Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
+//	queryObject.query.bool.must[0],term[options.comparisonRank] = options.comparisonTaxon; // Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
 
 	let queryData = JSON.stringify(queryObject);
 	console.log(queryData);
 
 	$.ajax(getAjaxParams(queryData))
 	.done(function(elasticData) {
+
+		console.log("HERE");
+		console.log(elasticData);
 
 		options.higherTaxonPerMonth = getObservationsPerMonth(elasticData); // Data to global var
 		getComparisonSpecies();
@@ -153,6 +170,12 @@ function getComparisonSpecies() {
     	"query" : {
         	"term" : {
         		"species" : options.species
+        	},
+        	"range" : {
+        		year : { // TODO: parametrize
+        			gte : options.begin,
+        			lte : options.end
+        		}
         	}
     	},
     	"aggregations" : {
