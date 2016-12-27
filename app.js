@@ -20,7 +20,7 @@ License
 Ladda
 
 PROBLEM with yearly comparison: 
-- Must define years to search
+- Works now with order only. Must paramterize query rank keys.
 
 */
 
@@ -32,9 +32,9 @@ options.aggregateType = "year";
 
 if ("year" == options.aggregateType)
 {
-	options.periods = 10;
+	options.periods = 52;
 	options.begin = 1963;
-	options.end = options.begin + options.periods;
+	options.end = options.begin + options.periods - 1;
 }
 
 
@@ -166,17 +166,25 @@ function getComparisonHigherTaxon()
 }
 
 function getComparisonSpecies() {
-	let queryData = JSON.stringify({
+	let queryObject = {
     	"query" : {
+    		"bool" : {
+    			"must": [
+    				{
         	"term" : {
-        		"species" : options.species
-        	},
+        		species: options.species
+        	}
+    				},
+    				{
         	"range" : {
         		year : { // TODO: parametrize
         			gte : options.begin,
         			lte : options.end
         		}
         	}
+    				}
+    			]
+    		}
     	},
     	"aggregations" : {
     		"observationsPerMonth" : {
@@ -186,7 +194,9 @@ function getComparisonSpecies() {
     			}
     		}
     	}
-	});
+	};
+	let queryData = JSON.stringify(queryObject);
+
 	console.log(queryData);
 
 	$.ajax(getAjaxParams(queryData))
@@ -210,10 +220,10 @@ function getComparisonSpecies() {
 
 // Calculate proportion of higher taxon observations
 function calculateProportions(speciesPerMonth) {
-	let roundness = 1000000;
+//	let roundness = 1000000;
 	for (let m = options.begin; m <= options.end; m++) {
 		speciesPerMonth[m] = speciesPerMonth[m] / options.higherTaxonPerMonth[m];
-		speciesPerMonth[m] = Math.round(speciesPerMonth[m] * roundness) / (roundness / 100);
+//		speciesPerMonth[m] = Math.round(speciesPerMonth[m] * roundness) / (roundness / 100);
 	}
 	return speciesPerMonth;
 }
@@ -339,6 +349,7 @@ function getObservationsPerMonth(elasticData)
 	}
 
 	monthlyObservations = fillMissingMonths(monthlyObservations);
+	console.log(monthlyObservations);
 
 	return monthlyObservations;
 }
