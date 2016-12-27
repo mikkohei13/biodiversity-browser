@@ -220,10 +220,11 @@ function getComparisonSpecies() {
 
 // Calculate proportion of higher taxon observations
 function calculateProportions(speciesPerMonth) {
-//	let roundness = 1000000;
+	let roundness = 1000000;
 	for (let m = options.begin; m <= options.end; m++) {
 		speciesPerMonth[m] = speciesPerMonth[m] / options.higherTaxonPerMonth[m];
-//		speciesPerMonth[m] = Math.round(speciesPerMonth[m] * roundness) / (roundness / 100);
+//		speciesPerMonth[m] = Math.round(speciesPerMonth[m] * roundness) / roundness * 100; // This results to multiple decimals due to decimal inaccuracy
+		speciesPerMonth[m] = speciesPerMonth[m] * 100;
 	}
 	return speciesPerMonth;
 }
