@@ -36,6 +36,12 @@ if ("year" == options.aggregateType)
 	options.begin = 1963;
 	options.end = options.begin + options.periods - 1;
 }
+else if ("month" == options.aggregateType)
+{
+	options.periods = 12;
+	options.begin = 1;
+	options.end = options.begin + options.periods - 1;
+}
 
 
 // -----------------------------------
