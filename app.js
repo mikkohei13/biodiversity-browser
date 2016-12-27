@@ -17,6 +17,7 @@ Modularize
 Documentation
 License
 Ladda
+'use strict';
 
 */
 
@@ -50,28 +51,42 @@ $(document).ready(function() {
 	getAll();
 });
 
-// Name search (enter)
+// Species search (enter)
 $("#species").keypress(function(event) {
 	if (event.which == 13) {
-		options.species = $("#species").val();
-
-		if (options.species == "") {
-			$("#query").text("Total");
-			getAll();
-		}
-		else {
-			let rank = $('input[name=rank]:checked').val();
-			if (rank == "no") {
-				getTaxon(species);		
-			}
-			else {
-				options.comparisonRank = rank;
-				getComparison();
-			}
-			$("#query").text(options.species);
-		}
+		doSpeciesSearch();
+		$("#ladda").html("<img src='media/spinner.svg'>");
 	}
 });
+
+// Species search (button)
+$( "#search" ).click(function() {
+	doSpeciesSearch();
+	$("#ladda").html("<img src='media/spinner.svg'>");
+});
+
+function doSpeciesSearch()
+{
+	options.species = $("#species").val();
+
+	if (options.species == "") {
+		$("#query").text("");
+		$("#container").html("");
+		getAll();
+	}
+	else {
+		let rank = $('input[name=rank]:checked').val();
+		if (rank == "no") {
+			getTaxon(species);		
+		}
+		else {
+			options.comparisonRank = rank;
+			getComparison();
+		}
+		$("#query").text(options.species);
+	}
+}
+
 
 // -----------------------------------
 // QUERY ELASTIC
@@ -232,7 +247,7 @@ function getAll() {
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted + " occurrences");
-		$("#container").html("");
+		$("#ladda").html("");
 	});
 }
 
@@ -325,6 +340,9 @@ function printHighchart(observationsPerMonth, species, chartTitle, yAxisTitle)
 	        }
 	    });
 	});
+
+	$("#ladda").html("");
+	console.log("Finished");
 }
 
 // Pick monthly values from elastic search results

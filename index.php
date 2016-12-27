@@ -19,6 +19,36 @@
 			 width:100%;
 			 height:400px;
 		}
+		#ladda
+		{
+			height: 35px;
+			width: 35px;
+				position: absolute;
+				top: 0px;
+				left: 15em;
+				z-index: 99;
+		}
+		#ladda img
+		{
+			height: 35px;
+			width: 35px;
+		}
+		#search
+		{
+
+		}
+		#comparison
+		{
+			clear: both;
+		}
+		#form
+		{
+			position: relative;
+		}
+		#results
+		{
+			clear: both;
+		}
 		</style>
 
 	    <script src="node_modules/jquery/dist/jquery.min.js"></script>
@@ -29,21 +59,27 @@
 	<body>
 		<h1>Biodiversity Browser</h1>
 
-			<input type="text" id="species"></input><br>
+		<div id="form">
+			<input type="text" id="species"></input>
+			<button name="search" id="search">Search</button>
+			<div id="ladda"></div>
 
-			Compare to<br>
-			<input type="radio" name="rank" value="no" checked>No comparison<br>
-			<input type="radio" name="rank" value="class">Class<br>
-			<input type="radio" name="rank" value="order">Order<br>
-			<input type="radio" name="rank" value="family">Family<br>
-
-			<div id="results">
-				<h2 id="query"></h2>
-				<span id="total"></span>
-				<div id="chart"></div>
-				<div id="container"></div>
+			<div id="comparison">
+				Compare to<br>
+				<input type="radio" name="rank" value="no" checked>No comparison<br>
+				<input type="radio" name="rank" value="class">Class<br>
+				<input type="radio" name="rank" value="order">Order<br>
+				<input type="radio" name="rank" value="family">Family<br>
 			</div>
 
+		</div>
+
+		<div id="results">
+			<h2 id="query"></h2>
+			<span id="total"></span>
+			<div id="chart"></div>
+			<div id="container"></div>
+		</div>
 
 		<script src="app.js">
 		</script>
