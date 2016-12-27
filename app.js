@@ -85,40 +85,8 @@ function getAjaxParams(queryData) {
 	}	
 }
 
-function getComparison()
+function getQueryObject(rank, taxon)
 {
-	// First get species data
-	let queryData = JSON.stringify({
-		"size" : 1,
-    	"query" : {
-        	"term" : {
-        		"species" : options.species
-        	}
-    	}
-	});
-	console.log(queryData);
-
-	$.ajax(getAjaxParams(queryData))
-	.done(function(elasticData) {
-		console.log(elasticData);
-
-		let count = elasticData.hits.total;
-		if (0 == count)
-		{
-			$("#total").text("Species not found");
-			$("#container").html("");
-			return;
-		}
-
-		options.comparisonTaxon = elasticData.hits.hits[0]._source[options.comparisonRank];
-
-		getComparisonHigherTaxon();
-	});
-}
-
-function getComparisonHigherTaxon()
-{
-	// First get species data
 	let queryObject = {
     	"query" :
     	{
@@ -154,12 +122,50 @@ function getComparisonHigherTaxon()
     	}
 	};
 	// Pre-ES6, see http://stackoverflow.com/questions/2274242/using-a-variable-for-a-key-in-a-javascript-object-literal
-	queryObject.query.bool.must[0].term[options.comparisonRank] = options.comparisonTaxon;
+	queryObject.query.bool.must[0].term[rank] = taxon;
 	queryObject.query.bool.must[1].range[options.aggregateType] = {
 		"gte" : options.begin,
 		"lte" : options.end
 	}
 
+	return queryObject;
+}
+
+function getComparison()
+{
+	// First get species data
+	let queryData = JSON.stringify({
+		"size" : 1,
+    	"query" : {
+        	"term" : {
+        		"species" : options.species
+        	}
+    	}
+	});
+	console.log(queryData);
+
+	$.ajax(getAjaxParams(queryData))
+	.done(function(elasticData) {
+		console.log(elasticData);
+
+		let count = elasticData.hits.total;
+		if (0 == count)
+		{
+			$("#total").text("Species not found");
+			$("#container").html("");
+			return;
+		}
+
+		options.comparisonTaxon = elasticData.hits.hits[0]._source[options.comparisonRank];
+
+		getComparisonHigherTaxon();
+	});
+}
+
+function getComparisonHigherTaxon()
+{
+	// First get species data
+	let queryObject = getQueryObject(options.comparisonRank, options.comparisonTaxon);
 
 	let queryData = JSON.stringify(queryObject);
 	console.log(queryData);
