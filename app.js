@@ -18,6 +18,10 @@ Expand to yearly comparison
 Documentation
 License
 Ladda
+
+PROBLEM with yearly comparison: 
+- Must define years to search
+
 */
 
 var options = {};
@@ -28,8 +32,8 @@ options.aggregateType = "year";
 
 if ("year" == options.aggregateType)
 {
-	options.periods = 54;
-	options.begin = 1960;
+	options.periods = 10;
+	options.begin = 1963;
 	options.end = options.begin + options.periods;
 }
 
@@ -124,8 +128,8 @@ function getComparisonHigherTaxon()
     	"aggregations" : {
     		"observationsPerMonth" : {
     			"terms" : {
-    				"field" : "month",
-    				"size" : 12
+    				"field" : options.aggregateType,
+    				"size" : options.periods
     			}
     		}
     	}
@@ -154,8 +158,8 @@ function getComparisonSpecies() {
     	"aggregations" : {
     		"observationsPerMonth" : {
     			"terms" : {
-    				"field" : "month",
-    				"size" : 12
+    				"field" : options.aggregateType,
+    				"size" : options.periods
     			}
     		}
     	}
@@ -167,6 +171,8 @@ function getComparisonSpecies() {
 		console.log(elasticData);
 
 		speciesPerMonth = getObservationsPerMonth(elasticData);
+		console.log("LOG");
+		console.log(speciesPerMonth);
 
 		speciesPerMonth = calculateProportions(speciesPerMonth);
 
@@ -182,7 +188,7 @@ function getComparisonSpecies() {
 // Calculate proportion of higher taxon observations
 function calculateProportions(speciesPerMonth) {
 	let roundness = 1000000;
-	for (var m = 1; m <= 12; m++) {
+	for (let m = options.begin; m <= options.end; m++) {
 		speciesPerMonth[m] = speciesPerMonth[m] / options.higherTaxonPerMonth[m];
 		speciesPerMonth[m] = Math.round(speciesPerMonth[m] * roundness) / (roundness / 100);
 	}
@@ -253,6 +259,8 @@ function getTaxon() {
 // Create a Highchart
 function printHighchart(observationsPerMonth, species, chartTitle, yAxisTitle)
 {
+	console.log(observationsPerMonth);
+
 //	let observationsPerMonth = getObservationsPerMonth(elasticData); // ABBA
 	let data = getHighchartsDataSeries(observationsPerMonth, species);
 
@@ -316,7 +324,7 @@ function getObservationsPerMonth(elasticData)
 function fillMissingMonths(monthlyObservations)
 {
 	let filledMonthlyObservations = {};
-	for (var m = options.begin; m <= options.end; m++) {
+	for (let m = options.begin; m <= options.end; m++) {
 		if (undefined == monthlyObservations[m])
 		{
 			filledMonthlyObservations[m] = 0;
