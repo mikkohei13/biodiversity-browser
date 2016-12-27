@@ -150,15 +150,9 @@ function getComparisonSpecies() {
 	.done(function(elasticData) {
 		console.log(elasticData);
 
-		let speciesPerMonth = getObservationsPerMonth(elasticData);
+		speciesPerMonth = getObservationsPerMonth(elasticData);
 
-		// Calculate proportion of higher taxon observations
-		let roundness = 1000000;
-		for (var m = 1; m <= 12; m++) {
-			speciesPerMonth[m] = speciesPerMonth[m] / options.higherTaxonPerMonth[m];
-			speciesPerMonth[m] = Math.round(speciesPerMonth[m] * roundness) / (roundness / 100);
-		}
-		console.log(speciesPerMonth);
+		speciesPerMonth = calculateProportions(speciesPerMonth);
 
 		printHighchart(speciesPerMonth, options.species, (options.species + " % of " + options.comparisonTaxon), "%");
 
@@ -167,6 +161,16 @@ function getComparisonSpecies() {
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted);
 	});
+}
+
+// Calculate proportion of higher taxon observations
+function calculateProportions(speciesPerMonth) {
+	let roundness = 1000000;
+	for (var m = 1; m <= 12; m++) {
+		speciesPerMonth[m] = speciesPerMonth[m] / options.higherTaxonPerMonth[m];
+		speciesPerMonth[m] = Math.round(speciesPerMonth[m] * roundness) / (roundness / 100);
+	}
+	return speciesPerMonth;
 }
 
 // Get summary of all data
