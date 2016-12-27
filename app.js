@@ -23,6 +23,15 @@ Ladda
 var options = {};
 
 options.indexName = "baltic-aves";
+options.aggregateType = "year";
+//options.aggregateType = "month";
+
+if ("year" == options.aggregateType)
+{
+	options.periods = 54;
+	options.begin = 1960;
+	options.end = options.begin + options.periods;
+}
 
 
 // -----------------------------------
@@ -208,8 +217,8 @@ function getTaxon() {
     	"aggregations" : {
     		"observationsPerMonth" : {
     			"terms" : {
-    				"field" : "month",
-    				"size" : 12
+    				"field" : options.aggregateType,
+    				"size" : options.periods
     			}
     		}
     	}
@@ -247,6 +256,13 @@ function printHighchart(observationsPerMonth, species, chartTitle, yAxisTitle)
 //	let observationsPerMonth = getObservationsPerMonth(elasticData); // ABBA
 	let data = getHighchartsDataSeries(observationsPerMonth, species);
 
+	let categories = [];
+
+	for (let m = options.begin; m <= options.end; m++) {
+		categories.push(m);
+	}
+	console.log(categories);
+
 	$(function () { 
 	    var myChart = Highcharts.chart('container', {
 	        chart: {
@@ -257,9 +273,10 @@ function printHighchart(observationsPerMonth, species, chartTitle, yAxisTitle)
 	        },
 	        xAxis: {
 //	            categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-	            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+//	            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				categories: categories,
 	            title: {
-	            	text: 'Month'
+	            	text: options.aggregateType
 	            }
 	        },
 	        yAxis: {
@@ -299,7 +316,7 @@ function getObservationsPerMonth(elasticData)
 function fillMissingMonths(monthlyObservations)
 {
 	let filledMonthlyObservations = {};
-	for (var m = 1; m <= 12; m++) {
+	for (var m = options.begin; m <= options.end; m++) {
 		if (undefined == monthlyObservations[m])
 		{
 			filledMonthlyObservations[m] = 0;
@@ -325,7 +342,7 @@ function getHighchartsDataSeries(observationsPerMonth, seriesName)
 	let series = [];
 	let data = [];
 
-	for (let m = 1; m <= 12; m++) {
+	for (let m = options.begin; m <= options.end; m++) {
 		data.push(observationsPerMonth[m]);
 	}
 
