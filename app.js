@@ -79,6 +79,15 @@ function navigateTo(id)
 		hideElement("#comparison");
 		hideElement("#aggrtype");
 	}
+	else if ("aboutpage" == id)
+	{
+		options.activePage = "aboutpage";
+		doSourceSearch();
+
+		hideElement("#namesearch");
+		hideElement("#comparison");
+		hideElement("#aggrtype");
+	}
 }
 
 function showElement(id)
@@ -161,13 +170,12 @@ function initSearchParameters()
 // -----------------------------------
 // QUERY ELASTIC
 
-// Get summary of all data
 function doClassSearch() {
 
 	$("#container").html("<img src='media/spinner.svg'>");
 	$("#query").text("Total");
 
-	let classCount = 20;
+	let classCount = 50;
 
 	let queryObject = {
     	"aggregations" : {
@@ -182,19 +190,65 @@ function doClassSearch() {
 
 	let callback = function(elasticData) {
 
-		let html = "<h4>Top " + classCount + " classes:</h4>";
+		let html = "<h4>Top " + classCount + " classes:</h4><ol>";
 		let buckets = elasticData.aggregations.observationsPerClass.buckets;
+		let topcount = 0;
+
 		for (let i = 0; i < buckets.length; i++) {
 //			console.log(buckets[i]);
-			html += buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + ")<br>"; // templating would be nice...
+			html += "<li>" + buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + ")<br>"; // templating would be nice...
+			topcount = topcount + buckets[i].doc_count;
 		}
+		html += "</ol>";
 
 		$("#container").html(html);
 
 		// Show count
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
-		$("#total").text(countFormatted + " occurrences");
+		$("#total").text(countFormatted + " occurrences, out of which " + Math.round(topcount / count * 100 * 10) / 10 + " % from these top classes:");
+	};
+
+	elasticQueryModule.query(queryObject, callback);
+}
+
+function doSourceSearch() {
+
+	$("#container").html("<img src='media/spinner.svg'>");
+	$("#query").text("Total");
+
+	let institutionCount = 100;
+
+	let queryObject = {
+    	"aggregations" : {
+    		"observationsPerInstitution" : {
+    			"terms" : {
+    				"field" : "institutioncode",
+    				"size" : institutionCount
+    			}
+    		}
+    	}
+	};
+
+	let callback = function(elasticData) {
+
+		let html = "<h4>Top " + institutionCount + " institutions:</h4><ol>";
+		let buckets = elasticData.aggregations.observationsPerInstitution.buckets;
+		let topcount = 0;
+
+		for (let i = 0; i < buckets.length; i++) {
+//			console.log(buckets[i]);
+			html += "<li>" + buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + ")</li>"; // templating would be nice...
+			topcount = topcount + buckets[i].doc_count;
+		}
+		html += "</ol>";
+
+		$("#container").html(html);
+
+		// Show count
+		let count = elasticData.hits.total;
+		let countFormatted = count.toLocaleString();
+		$("#total").text(countFormatted + " occurrences, out of which " + Math.round(topcount / count * 100 * 10) / 10 + " % from these top institutions:");
 	};
 
 	elasticQueryModule.query(queryObject, callback);
