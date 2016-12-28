@@ -26,10 +26,18 @@ $(document).ready(function() {
 
 
 
+// DRAFTING NAVI
+
+// Navigation
+$("#nav a").click(function() {
+	$(".active").removeClass("active");
+	document.getElementById(this.id).className = "active";
+});
 
 
 
 
+// --------------------
 
 function doInit()
 {

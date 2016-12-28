@@ -92,15 +92,9 @@ header h1
 	background-color: rgba(0, 0, 0, 0.2);
 }
 
-#nav .active a
+#nav .active
 {
 	background-color: rgba(232, 235, 228, 1);
-	color: #000;
-}
-
-a#nav_chart
-{
-	background-color: #fff;
 	color: #000;
 }
 

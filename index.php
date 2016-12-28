@@ -17,12 +17,12 @@
 	<body>
 		<header>
 			<h1>Biodiversity Browser</h1>
-			<span id="tagline">51 million Swedish occurrence records from GBIF</span>
+			<span id="tagline">51+ million Swedish occurrence records from GBIF</span>
 			<ul id="nav">
-				<li id="chart" class="active"><a href="#">Species chart</a></li>
-				<li id="map"><a href="#">Species map</a></li>
-				<li id="class"><a href="#">Classes</a></li>
-				<li id="about"><a href="#">About</a></li>
+				<li><a href="#" id="chart" class="active">Species chart</a></li>
+				<li><a href="#" id="map">Species map</a></li>
+				<li><a href="#" id="class">Classes</a></li>
+				<li><a href="#" id="about">About</a></li>
 			</ul>
 		</header>
 
