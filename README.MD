@@ -20,8 +20,11 @@ Ideas
 Technical Todo
 --------------
 
-- Elasticsearc on AWS or elsewhere? (11 GB index for 51M records)
+- Elasticsearch on AWS or elsewhere? (11 GB index for 51M records)
 - cache Aves?
+- cache Classes
+- URL Routing (Ember?)
 - autocomplete species name
 - Reorganize page update logic
+- Templating (Handlebars/Ember)
 

@@ -45,10 +45,10 @@ $(document).ready(function() {
 	$("#query").text("Total");
 //	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
 
-//	getAll();
+	getAll();
 
 	// Testing significant terms search
-	significantSpecies();
+//	significantSpecies();
 });
 
 // Species search (enter)
@@ -253,15 +253,37 @@ function calculateProportions(speciesPerMonth) {
 
 // Get summary of all data
 function getAll() {
+	let queryObject = {
+    	"aggregations" : {
+    		"observationsPerClass" : {
+    			"terms" : {
+    				"field" : "class",
+    				"size" : 20 // Fixed number of classes
+    			}
+    		}
+    	}
+	};
 
 	let callback = function(elasticData) {
+//		console.log(elasticData.aggregations.observationsPerClass.buckets);
+
+		let html = "<div id='topclasses'><h4>Top 10 classes:</h4><div>";
+		let buckets = elasticData.aggregations.observationsPerClass.buckets;
+		for (let i = 0; i < buckets.length; i++) {
+			console.log(buckets[i]);
+			html += "<a href='?type=significant&amp;class=" + buckets[i].key + "'>" + buckets[i].key + "</a>: " + buckets[i].doc_count.toLocaleString() + "<br>";
+		}
+
+		$("#container").html(html + "</div>");
+
+		// Show count
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted + " occurrences");
 		$("#ladda").html("");
 	};
 
-	elasticQueryModule.query({}, callback);
+	elasticQueryModule.query(queryObject, callback);
 }
 
 function getTaxon() {
