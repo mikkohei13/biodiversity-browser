@@ -11,8 +11,7 @@ Variables regarding Highcharts are handled with function arguments, so that crea
 
 let options = {};
     options.indexName = "se-all";
-
-let urlParams = getURLParams();
+    options.activePage = "chart";
 
 // Page load
 $(document).ready(function() {
@@ -24,93 +23,15 @@ $(document).ready(function() {
 
 
 
-// DRAFTING NAVI
+
+// -----------------------------------
+// EVENTS
+
 
 // Navigation
 $("#nav a").click(function() {
 	navigateTo(this.id);
 });
-
-function navigateTo(id)
-{
-	$(".active").removeClass("active");
-	document.getElementById(id).className = "active";
-
-	console.log(id);
-
-	if ("chart" == id)
-	{
-		showElement("#namesearch");
-		showElement("#comparison");
-		showElement("#aggrtype");
-	}
-	else if ("map" == id)
-	{
-		showElement("#namesearch");
-		hideElement("#comparison");
-		hideElement("#aggrtype");
-	}
-	else if ("class" == id)
-	{
-		hideElement("#namesearch");
-		hideElement("#comparison");
-		hideElement("#aggrtype");
-	}
-}
-
-function showElement(id)
-{
-	console.log("HERE" + id);
-	$(id).addClass("show");
-	$(id).removeClass("hide");
-}
-
-function hideElement(id)
-{
-	$(id).addClass("hide");
-	$(id).removeClass("show");
-}
-
-
-// --------------------
-
-function doInit()
-{
-	if ("significant" == urlParams.type)
-	{
-		options.significantClass = urlParams.class;
-
-		let html = "<h4>Significant species (and % of all records) per year:</h4>";
-		$("#container").html(html);
-
-		for (var y = 2000; y <= 2014; y++) {
-			significantSpecies(y);
-		}
-		
-	}
-	else
-	{
-		let aggrType = $('input[name=aggrtype]:checked').val();
-
-		if ("year" == aggrType)
-		{
-			options.aggregateType = "year";
-			options.periods = 52;
-			options.begin = 1963;
-			options.end = options.begin + options.periods - 1;
-		}
-		else // if (aggrtype == "month")
-		{
-			options.aggregateType = "month";
-			options.periods = 12;
-			options.begin = 1;
-			options.end = options.begin + options.periods - 1;
-		}
-	}
-}
-
-// -----------------------------------
-// EVENTS
 
 // Species search (enter)
 $("#species").keypress(function(event) {
@@ -127,6 +48,79 @@ $( "#search" ).click(function() {
 	doInit();
 	doSpeciesSearch();
 });
+
+
+function navigateTo(id)
+{
+	$(".active").removeClass("active");
+	document.getElementById(id).className = "active";
+
+	console.log(id);
+
+	if ("chart" == id)
+	{
+		options.activePage = "chart";
+
+		showElement("#namesearch");
+		showElement("#comparison");
+		showElement("#aggrtype");
+	}
+	else if ("map" == id)
+	{
+		options.activePage = "map";
+
+		showElement("#namesearch");
+		hideElement("#comparison");
+		hideElement("#aggrtype");
+	}
+	else if ("class" == id)
+	{
+		options.activePage = "class";
+
+		hideElement("#namesearch");
+		hideElement("#comparison");
+		hideElement("#aggrtype");
+	}
+}
+
+function showElement(id)
+{
+	$(id).addClass("show");
+	$(id).removeClass("hide");
+}
+
+function hideElement(id)
+{
+	$(id).addClass("hide");
+	$(id).removeClass("show");
+}
+
+
+// --------------------
+
+function doInit()
+{
+
+
+	let aggrType = $('input[name=aggrtype]:checked').val();
+
+	if ("year" == aggrType)
+	{
+		options.aggregateType = "year";
+		options.periods = 52;
+		options.begin = 1963;
+		options.end = options.begin + options.periods - 1;
+	}
+	else // if (aggrtype == "month")
+	{
+		options.aggregateType = "month";
+		options.periods = 12;
+		options.begin = 1;
+		options.end = options.begin + options.periods - 1;
+	}
+
+}
+
 
 function doSpeciesSearch()
 {
@@ -505,22 +499,3 @@ function getHighchartsDataSeries(observationsPerMonth, seriesName)
 	return series;
 }
 
-// ----------------------------------
-// HELPERS
-
-// Function by Ates Goral
-// http://stackoverflow.com/questions/979975/how-to-get-the-value-from-the-get-parameters
-function getURLParams() {
-	let qs = document.location.search;
-    qs = qs.split('+').join(' ');
-
-    let params = {},
-        tokens,
-        re = /[?&]?([^=]+)=([^&]*)/g;
-
-    while (tokens = re.exec(qs)) {
-        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
-    }
-
-    return params;
-}
