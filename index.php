@@ -62,10 +62,7 @@ if ("significant" != $_GET['type']) {
 			<div id="results">
 				<h2 id="query"></h2>
 				<span id="total"></span>
-
-				<div id="chart"></div>
-				<div id="classes"></div>
-				<div id="map"></div>
+				<div id="container"></div>
 			</div>
 
 		</div>

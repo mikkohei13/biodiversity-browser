@@ -41,6 +41,7 @@ Technical Todo
 - Refactor names:
 	- getmonths -> getperiods
 	- get -> do
+	- use same div for all results (chart/map/class)?
 
 **Site logical structure draft:**
 
