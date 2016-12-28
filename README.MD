@@ -21,7 +21,6 @@ Technical Todo
 --------------
 
 - Elasticsearc on AWS or elsewhere? (11 GB index for 51M records)
-- 'use strict';
 - cache Aves?
 - autocomplete species name
 - Reorganize page update logic

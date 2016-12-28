@@ -1,3 +1,86 @@
+/*
+Coolors Exported Palette
+coolors.co/47e5bc-c1bddb-a2c7e5-6369d1-303a2b
+
+$color1: hsla(164%, 75%, 59%, 1);
+$color2: hsla(248%, 29%, 80%, 1);
+$color3: hsla(207%, 56%, 77%, 1);
+$color4: hsla(237%, 54%, 60%, 1);
+$color5: hsla(100%, 15%, 20%, 1);
+
+$color1: rgba(71, 229, 188, 1); turquoise
+$color2: rgba(193, 189, 219, 1); lavender gray
+$color3: rgba(162, 199, 229, 1); pale cerulean
+$color4: rgba(99, 105, 209, 1); slate blue
+$color5: rgba(48, 58, 43, 1); black leather jacket
+
+--
+
+Coolors Exported Palette
+https://coolors.co/006aa7-fecc00-e8ebe4-d6d9ce-363732
+
+$color1: hsla(202%, 100%, 33%, 1);
+$color2: hsla(48%, 100%, 50%, 1);
+$color3: hsla(86%, 15%, 91%, 1);
+$color4: hsla(76%, 13%, 83%, 1);
+$color5: hsla(72%, 5%, 21%, 1);
+
+$color1: rgba(0, 106, 167, 1); sapphire blue
+$color2: rgba(254, 204, 0, 1); usc gold
+$color3: rgba(232, 235, 228, 1); platinum (very light grey)
+rgba(244, 247, 240, 1); (very very light grey)
+$color4: rgba(214, 217, 206, 1); timberwolf (light grey)
+$color5: rgba(54, 55, 50, 1); jet (dark gray)
+
+*/
+
+body
+{
+	padding: 0;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	color: rgba(54, 55, 50, 1);
+}
+
+header, #content, footer
+{
+	padding: 10px;
+
+}
+
+header, footer
+{
+	background-color: rgba(0, 106, 167, 1);
+	color: #ffffff;
+	border-right: 10px solid rgba(254, 204, 0, 1);
+}
+
+header a, footer a
+{
+	color: #ffffff;
+}
+
+header h1 {
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: Lato;
+}
+
+#form
+{
+	background-color: rgba(232, 235, 228, 1);
+	border-bottom: 10px solid rgba(244, 247, 240, 1);
+	padding: 5px;
+}
+
+#namesearch, #comparison, #aggrtype
+{
+	display: table-cell;
+	padding: 5px;
+}
+
 .bar
 {
 	display: block;
@@ -12,21 +95,18 @@
 }
 #ladda
 {
+	margin-top: 5px;
 	height: 35px;
 	width: 35px;
-		position: absolute;
-		top: 0px;
-		left: 15em;
-		z-index: 99;
 }
 #ladda img
 {
 	height: 35px;
 	width: 35px;
 }
-#search
+#query
 {
-
+	font-style: italic;
 }
 #comparison
 {
