@@ -84,20 +84,8 @@ function doSpeciesSearch()
 // -----------------------------------
 // QUERY ELASTIC
 
-// Gets connection parameters as jQuery-compatible object
-function getAjaxParams(queryData) {
-	return {
-		method: "POST",
-		url: "http://192.168.56.10:9200/" + options.indexName + "/_search",
-		data: queryData,
-		beforeSend: function (xhr) {
-		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
-		}
-	}	
-}
-
 // Gets JSON for taxon query, which is aggregated & ranged based on global options
-function getQueryJSON(rank, taxon)
+function getQueryObject(rank, taxon)
 {
 	let queryObject = {
     	"query" :
@@ -140,23 +128,22 @@ function getQueryJSON(rank, taxon)
 		"lte" : options.end
 	}
 
-	return JSON.stringify(queryObject);
+	return queryObject;
 }
 
 function getComparison()
 {
 	// First get species data
-	let queryData = JSON.stringify({
+	let queryObject = {
 		"size" : 1,
     	"query" : {
         	"term" : {
         		"species" : options.species
         	}
     	}
-	});
+	};
 
-	$.ajax(getAjaxParams(queryData))
-	.done(function(elasticData) {
+	let callback = function(elasticData) {
 
 		let count = elasticData.hits.total;
 		if (0 == count)
@@ -169,29 +156,29 @@ function getComparison()
 		options.comparisonTaxon = elasticData.hits.hits[0]._source[options.comparisonRank];
 
 		getComparisonHigherTaxon();
-	});
+	};
+
+	elasticQueryModule.query(queryObject, callback);
 }
 
 function getComparisonHigherTaxon()
 {
 	// First get species data
-	let queryData = getQueryJSON(options.comparisonRank, options.comparisonTaxon);
+	let queryObject = getQueryObject(options.comparisonRank, options.comparisonTaxon);
 
-	$.ajax(getAjaxParams(queryData))
-	.done(function(elasticData) {
-
+	let callback = function(elasticData) {
 		options.higherTaxonPerMonth = getObservationsPerMonth(elasticData); // Data to global var
 		getComparisonSpecies();
+	};
 
-	});
+	elasticQueryModule.query(queryObject, callback);
 }
 
 function getComparisonSpecies() {
 
-	let queryData = getQueryJSON("species", options.species);
+	let queryObject = getQueryObject("species", options.species);
 
-	$.ajax(getAjaxParams(queryData))
-	.done(function(elasticData) {
+	let callback = function(elasticData) {
 
 		speciesPerMonth = getObservationsPerMonth(elasticData);
 
@@ -203,7 +190,9 @@ function getComparisonSpecies() {
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted + " occurrences");
-	});
+	};
+
+	elasticQueryModule.query(queryObject, callback);
 }
 
 // Calculate proportion of higher taxon observations
@@ -218,23 +207,6 @@ function calculateProportions(speciesPerMonth) {
 }
 
 // Get summary of all data
-function getAllOLDNAME() {
-	$.ajax({
-		method: "GET",
-		url: "http://192.168.56.10:9200/" + options.indexName + "/_search",
-		beforeSend: function (xhr) {
-		    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
-		}
-	})
-	.done(function(elasticData) {
-		let count = elasticData.hits.total;
-		let countFormatted = count.toLocaleString();
-		$("#total").text(countFormatted + " occurrences");
-		$("#ladda").html("");
-	});
-}
-
-// Get summary of all data
 function getAll() {
 
 	let callback = function(elasticData) {
@@ -244,11 +216,11 @@ function getAll() {
 		$("#ladda").html("");
 	};
 
-	elasticQuery({}, callback);
+	elasticQueryModule.query({}, callback);
 }
 
 function getTaxon() {
-	let queryData = JSON.stringify({
+	let queryObject = {
     	"query" : {
         	"term" : {
         		"species" : options.species
@@ -262,10 +234,9 @@ function getTaxon() {
     			}
     		}
     	}
-	});
+	};
 
-	$.ajax(getAjaxParams(queryData))
-	.done(function(elasticData) {
+	let callback = function(elasticData) {
 
 		let count = elasticData.hits.total;
 		if (0 == count)
@@ -282,7 +253,9 @@ function getTaxon() {
 		// Show count
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted + " occurrences");
-	});
+	};
+
+	elasticQueryModule.query(queryObject, callback);
 }
 
 // -----------------------------------
