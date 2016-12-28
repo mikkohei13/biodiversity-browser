@@ -148,6 +148,7 @@ function getComparison()
 		let count = elasticData.hits.total;
 		if (0 == count)
 		{
+			$("#ladda").html("");
 			$("#total").text("Species not found");
 			$("#container").html("");
 			return;
@@ -241,6 +242,7 @@ function getTaxon() {
 		let count = elasticData.hits.total;
 		if (0 == count)
 		{
+			$("#ladda").html("");
 			$("#total").text("Species not found");
 			$("#container").html("");
 			return;

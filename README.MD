@@ -26,4 +26,5 @@ Technical Todo
 - 'use strict';
 - cache Aves?
 - autocomplete species name
+- Reorganize page update logic
 
