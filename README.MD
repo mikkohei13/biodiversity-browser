@@ -18,24 +18,22 @@ Ideas
 
 - Species monthly chart
 - Species yearly chart, compared to higher taxonomy
+- Aggragation & interesting species for a given year & class and institution
 
 **Todo**
 
 - Clustered map
-- Interesting species for a give month/year (work in progress)
-- Aggragation by data source (work in progress)
+
 
 Technical Todo
 --------------
 
 - Elasticsearch on AWS or elsewhere? (11 GB index for 51M records) - with username management
-- Tabs for subtools/pages (browser history?)
 - Map
-- Background info (modal/page)
-- Async populating of significant species (promises or better UI)
+- About page, documentation, help texts
 - cache metadata (localstorage; update frequency?)
 - Autocomplete species name (Elasticsearch suggestions?)
-- Reorganize page update logic
+- Tabs for subtools/pages (browser history?)
 - Templating (Handlebars/Ember)
 - URL Routing (Ember?)
 - Refactor names:
