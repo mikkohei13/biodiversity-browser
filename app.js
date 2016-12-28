@@ -7,6 +7,8 @@ Variables regarding Highcharts are handled with function arguments, so that crea
 
 */
 
+"use strict";
+
 let options = {};
 
 function doInit()
@@ -181,7 +183,7 @@ function getComparisonSpecies() {
 
 	let callback = function(elasticData) {
 
-		speciesPerMonth = getObservationsPerMonth(elasticData);
+		let speciesPerMonth = getObservationsPerMonth(elasticData);
 
 		speciesPerMonth = calculateProportions(speciesPerMonth);
 
@@ -307,7 +309,6 @@ function printHighchart(observationsPerMonth, species, chartTitle, yAxisTitle)
 	});
 
 	$("#ladda").html("");
-	console.log("Finished");
 }
 
 // Pick monthly values from elastic search results
@@ -322,7 +323,6 @@ function getObservationsPerMonth(elasticData)
 	}
 
 	monthlyObservations = fillMissingMonths(monthlyObservations);
-	console.log(monthlyObservations);
 
 	return monthlyObservations;
 }
@@ -366,6 +366,5 @@ function getHighchartsDataSeries(observationsPerMonth, seriesName)
 		"data" : data
 	};
 
-	console.log(series);
 	return series;
 }
