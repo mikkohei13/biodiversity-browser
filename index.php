@@ -17,54 +17,56 @@
 	<body>
 		<header>
 			<h1>Biodiversity Browser</h1>
+			<span id="tagline">51 million Swedish occurrence records from GBIF</span>
+			<ul id="nav">
+				<li id="chart" class="active"><a href="#">Species chart</a></li>
+				<li id="map"><a href="#">Species map</a></li>
+				<li id="class"><a href="#">Classes</a></li>
+				<li id="about"><a href="#">About</a></li>
+			</ul>
 		</header>
 
-		<div id="content">
 
 <?php 
 if ("significant" != $_GET['type']) {
 ?>
-			<div id="form">
+		<div id="form">
 
-				<h4>Search for a species (scientific name):</h4>
-				<div id="namesearch">
-					<input type="text" id="species"></input>
-					<button name="search" id="search">Search</button>
-					<div id="ladda"></div>
-				</div>
-
-				<div id="comparison">
-					Compare to<br>
-					<label><input type="radio" name="rank" value="no" checked>No comparison</label><br>
-					<label><input type="radio" name="rank" value="class">Class</label><br>
-					<label><input type="radio" name="rank" value="order">Order</label><br>
-					<label><input type="radio" name="rank" value="family">Family</label>
-				</div>
-
-				<div id="aggrtype">
-					Aggregate by<br>
-					<label><input type="radio" name="aggrtype" value="year" checked>Year</label><br>
-					<label><input type="radio" name="aggrtype" value="month">Month</label>
-				</div>
-
+			<h4>Search for a species (scientific name):</h4>
+			<div id="namesearch">
+				<input type="text" id="species"></input>
+				<button name="search" id="search">Search</button>
+				<div id="ladda"></div>
 			</div>
-<?php
-}
-?>
-				<div id="results">
-					<h2 id="query"></h2>
-					<span id="total"></span>
-					<div id="chart"></div>
-					<div id="container"></div>
-				</div>
 
+			<div id="comparison">
+				Compare to<br>
+				<label><input type="radio" name="rank" value="no" checked>No comparison</label><br>
+				<label><input type="radio" name="rank" value="class">Class</label><br>
+				<label><input type="radio" name="rank" value="order">Order</label><br>
+				<label><input type="radio" name="rank" value="family">Family</label>
+			</div>
+
+			<div id="aggrtype">
+				Aggregate by<br>
+				<label><input type="radio" name="aggrtype" value="year" checked>Year</label><br>
+				<label><input type="radio" name="aggrtype" value="month">Month</label>
 			</div>
 
 		</div>
+<?php
+}
+?>
+		<div id="content">
 
-		<footer>
-			Data: <a href="http://gbif.org">GBIF</a> & data providers
-		</footer>
+			<div id="results">
+				<h2 id="query"></h2>
+				<span id="total"></span>
+				<div id="chart"></div>
+				<div id="container"></div>
+			</div>
+
+		</div>
 
 		<script src="elasticquery.js"></script>
 		<script src="app.js"></script>
