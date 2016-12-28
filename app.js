@@ -102,7 +102,6 @@ function hideElement(id)
 	$(id).removeClass("show");
 }
 
-
 // -----------------------------------
 // SPECIES SEARCH
 
@@ -190,13 +189,13 @@ function doClassSearch() {
 
 	let callback = function(elasticData) {
 
-		let html = "<h4>Top " + classCount + " classes:</h4><ol>";
+		let html = "<h4>Top " + classCount + " classes:</h4><ol id='classlist'>";
 		let buckets = elasticData.aggregations.observationsPerClass.buckets;
 		let topcount = 0;
 
 		for (let i = 0; i < buckets.length; i++) {
 //			console.log(buckets[i]);
-			html += "<li>" + buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + ")<br>"; // templating would be nice...
+			html += "<li data-class-name='" + buckets[i].key + "'>" + buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + ")<br>"; // templating would be nice...
 			topcount = topcount + buckets[i].doc_count;
 		}
 		html += "</ol>";
@@ -207,11 +206,18 @@ function doClassSearch() {
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted + " occurrences, out of which " + Math.round(topcount / count * 100 * 10) / 10 + " % from these top classes:");
+
+		$("#classlist").on('click', function(event) {
+			let className = $(event.target).attr("data-class-name");
+			console.log(className);
+		});
+
 	};
 
 	elasticQueryModule.query(queryObject, callback);
 }
 
+// todo: combine with class search function?
 function doSourceSearch() {
 
 	$("#container").html("<img src='media/spinner.svg'>");
