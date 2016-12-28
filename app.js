@@ -6,12 +6,13 @@ Most variables are handled with the globar object options.
 Variables regarding Highcharts are handled with function arguments, so that creating several charts is possible.
 
 TODO:
+Other taxa (all swedish?)
+Elastic
 Modularize
 Documentation
 License
-Ladda
 'use strict';
-cache Aves
+cache Aves?
 stats of data source
 autocomplete species name
 
@@ -21,7 +22,7 @@ let options = {};
 
 function doInit()
 {
-	options.indexName = "baltic-aves";
+	options.indexName = "se-all";
 
 	let aggrType = $('input[name=aggrtype]:checked').val();
 

@@ -5,51 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Biodiversity Browser</title>
 		<link rel="shortcut icon" href="favicon.ico">
-
-		<style>
-		.bar
-		{
-			display: block;
-			background-color: #d00;
-			height: 1em;
-			margin: 2px;
-		}
-		#container
-		{
-			 width:100%;
-			 height:400px;
-		}
-		#ladda
-		{
-			height: 35px;
-			width: 35px;
-				position: absolute;
-				top: 0px;
-				left: 15em;
-				z-index: 99;
-		}
-		#ladda img
-		{
-			height: 35px;
-			width: 35px;
-		}
-		#search
-		{
-
-		}
-		#comparison
-		{
-			clear: both;
-		}
-		#form
-		{
-			position: relative;
-		}
-		#results
-		{
-			clear: both;
-		}
-		</style>
+		<link rel="stylesheet" href="media/app.css" media="all" />
 
 	    <script src="node_modules/jquery/dist/jquery.min.js"></script>
 	    <script src="node_modules/highcharts/highcharts.js"></script>
