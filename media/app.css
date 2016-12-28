@@ -42,6 +42,17 @@ body
 	color: rgba(54, 55, 50, 1);
 }
 
+a:link, a:visited, a:active
+{
+	color: rgba(0, 106, 167, 1);
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
 header
 {
 	padding: 10px 10px 0 10px;
@@ -149,6 +160,12 @@ h1 {
 #classlist li
 {
 	cursor: pointer;
+	color: rgba(0, 106, 167, 1);
+}
+
+#classlist li:hover
+{
+	text-decoration: underline;
 }
 
 .bar
