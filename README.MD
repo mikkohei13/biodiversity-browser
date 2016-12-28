@@ -7,13 +7,23 @@ Ideas
 -----
 
 **Done**
-Species monthly chart
-Species yearly chart, compared to higher taxonomy
+
+- Species monthly chart
+- Species yearly chart, compared to higher taxonomy
 
 **Todo**
-Clustered map
-Interesting species for a give month/year
-Aggragation by data source
 
+- Clustered map
+- Interesting species for a give month/year
+- Aggragation by data source
 
+Technical Todo
+--------------
+
+- Elasticsearc on AWS or elsewhere? (11 GB index for 51M records)
+- Modularize
+- Documentation
+- 'use strict';
+- cache Aves?
+- autocomplete species name
 

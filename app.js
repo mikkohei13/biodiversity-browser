@@ -5,17 +5,6 @@ Objective: Show occurrence count data on single species, either absolute, or pro
 Most variables are handled with the globar object options. 
 Variables regarding Highcharts are handled with function arguments, so that creating several charts is possible.
 
-TODO:
-Other taxa (all swedish?)
-Elastic
-Modularize
-Documentation
-License
-'use strict';
-cache Aves?
-stats of data source
-autocomplete species name
-
 */
 
 let options = {};
