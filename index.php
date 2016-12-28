@@ -43,7 +43,8 @@
 			<div id="container"></div>
 		</div>
 
-		<script src="app.js">
+		<script src="elasticquery.js"></script>
+		<script src="app.js"></script>
 		</script>
 	</body>
 </html>

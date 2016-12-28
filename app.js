@@ -84,6 +84,7 @@ function doSpeciesSearch()
 // -----------------------------------
 // QUERY ELASTIC
 
+// Gets connection parameters as jQuery-compatible object
 function getAjaxParams(queryData) {
 	return {
 		method: "POST",
@@ -95,6 +96,7 @@ function getAjaxParams(queryData) {
 	}	
 }
 
+// Gets JSON for taxon query, which is aggregated & ranged based on global options
 function getQueryJSON(rank, taxon)
 {
 	let queryObject = {
@@ -216,7 +218,7 @@ function calculateProportions(speciesPerMonth) {
 }
 
 // Get summary of all data
-function getAll() {
+function getAllOLDNAME() {
 	$.ajax({
 		method: "GET",
 		url: "http://192.168.56.10:9200/" + options.indexName + "/_search",
@@ -230,6 +232,19 @@ function getAll() {
 		$("#total").text(countFormatted + " occurrences");
 		$("#ladda").html("");
 	});
+}
+
+// Get summary of all data
+function getAll() {
+
+	let callback = function(elasticData) {
+		let count = elasticData.hits.total;
+		let countFormatted = count.toLocaleString();
+		$("#total").text(countFormatted + " occurrences");
+		$("#ladda").html("");
+	};
+
+	elasticQuery({}, callback);
 }
 
 function getTaxon() {
