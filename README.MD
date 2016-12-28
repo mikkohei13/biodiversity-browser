@@ -38,6 +38,9 @@ Technical Todo
 - Reorganize page update logic
 - Templating (Handlebars/Ember)
 - URL Routing (Ember?)
+- Refactor names:
+	- getmonths -> getperiods
+	- get -> do
 
 **Site logical structure draft:**
 

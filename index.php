@@ -19,10 +19,10 @@
 			<h1>Biodiversity Browser</h1>
 			<span id="tagline">51+ million Swedish occurrence records from GBIF</span>
 			<ul id="nav">
-				<li><a href="#" id="chart" class="active">Species chart</a></li>
-				<li><a href="#" id="map">Species map</a></li>
-				<li><a href="#" id="class">Classes</a></li>
-				<li><a href="#" id="about">About</a></li>
+				<li><a href="#" id="chartpage" class="active">Species chart</a></li>
+				<li><a href="#" id="mappage">Species map</a></li>
+				<li><a href="#" id="classpage">Classes</a></li>
+				<li><a href="#" id="aboutpage">About</a></li>
 			</ul>
 		</header>
 
@@ -62,8 +62,10 @@ if ("significant" != $_GET['type']) {
 			<div id="results">
 				<h2 id="query"></h2>
 				<span id="total"></span>
+
 				<div id="chart"></div>
-				<div id="container"></div>
+				<div id="classes"></div>
+				<div id="map"></div>
 			</div>
 
 		</div>

@@ -11,22 +11,18 @@ Variables regarding Highcharts are handled with function arguments, so that crea
 
 let options = {};
     options.indexName = "se-all";
-    options.activePage = "chart";
+    options.activePage = "chartpage";
 
 // Page load
 $(document).ready(function() {
-	doInit();
-	getAll();
+	doTotalsSearch();
 //	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
 
 });
 
 
-
-
 // -----------------------------------
 // EVENTS
-
 
 // Navigation
 $("#nav a").click(function() {
@@ -36,44 +32,49 @@ $("#nav a").click(function() {
 // Species search (enter)
 $("#species").keypress(function(event) {
 	if (event.which == 13) {
-		$("#ladda").html("<img src='media/spinner.svg'>");
-		doSpeciesSearch();
+		initSpeciesSearch();
 	}
 });
 
 // Species search (button)
 $( "#search" ).click(function() {
-	$("#ladda").html("<img src='media/spinner.svg'>");
-	doSpeciesSearch();
+	initSpeciesSearch();
 });
 
-
+/*
+Navigation logic: changing page clears results, but keeps form contents
+*/
 function navigateTo(id)
 {
 	$(".active").removeClass("active");
 	document.getElementById(id).className = "active";
 
+	$("#query").html("");
+	$("#total").html("");
+	$("#chart").html("");
+	$("#map").html("");
+
 	console.log(id);
 
-	if ("chart" == id)
+	if ("chartpage" == id)
 	{
-		options.activePage = "chart";
+		options.activePage = "chartpage";
 
 		showElement("#namesearch");
 		showElement("#comparison");
 		showElement("#aggrtype");
 	}
-	else if ("map" == id)
+	else if ("mappage" == id)
 	{
-		options.activePage = "map";
+		options.activePage = "mappage";
 
 		showElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
 	}
-	else if ("class" == id)
+	else if ("classpage" == id)
 	{
-		options.activePage = "class";
+		options.activePage = "classpage";
 
 		hideElement("#namesearch");
 		hideElement("#comparison");
@@ -97,26 +98,43 @@ function hideElement(id)
 // -----------------------------------
 // SPECIES SEARCH
 
-function doSpeciesSearch()
+function initSpeciesSearch()
+{
+	$("#ladda").html("<img src='media/spinner.svg'>");
+
+	// if empty search
+	if ($("#species").val() == "") {
+		doTotalsSearch();
+	}
+	else {
+		if ("chartpage" == options.activePage)
+		{
+			doSpeciesChartSearch();
+		}
+		else if("mappage" == options.activePage)
+		{
+			// Todo: call map search function
+			// THESE ARE TEMP / DEBUG:
+				$("#map").text("MAP GOES HERE!");
+				$("#ladda").html("");
+		}
+	}
+}
+
+function doSpeciesChartSearch()
 {
 	initSearchParameters();
 
-	if (options.species == "") {
-		$("#query").text("");
-		$("#container").html("");
-		getAll();
+
+	let rank = $('input[name=rank]:checked').val();
+	if (rank == "no") {
+		getTaxon(species);		
 	}
 	else {
-		let rank = $('input[name=rank]:checked').val();
-		if (rank == "no") {
-			getTaxon(species);		
-		}
-		else {
-			options.comparisonRank = rank;
-			getComparison();
-		}
-		$("#query").text(options.species);
+		options.comparisonRank = rank;
+		getComparison();
 	}
+	$("#query").text(options.species);
 }
 
 function initSearchParameters()
@@ -180,7 +198,7 @@ function significantSpecies(year)
 		}
 		html += "<br>";
 
-		$("#container").append(html);
+		$("#chart").append(html);
 	};
 
 	elasticQueryModule.query(queryObject, callback);
@@ -252,7 +270,7 @@ function getComparison()
 		{
 			$("#ladda").html("");
 			$("#total").text("Species not found");
-			$("#container").html("");
+			$("#chart").html("");
 			return;
 		}
 
@@ -310,33 +328,14 @@ function calculateProportions(speciesPerMonth) {
 }
 
 // Get summary of all data
-function getAll() {
+function doTotalsSearch() {
 	$("#query").text("Total");
-	$("#container").text("");
+	$("#chart").html("");
 
-
-	let queryObject = {
-    	"aggregations" : {
-    		"observationsPerClass" : {
-    			"terms" : {
-    				"field" : "class",
-    				"size" : 20 // Fixed number of classes
-    			}
-    		}
-    	}
-	};
+	let queryObject = {};
 
 	let callback = function(elasticData) {
-//		console.log(elasticData.aggregations.observationsPerClass.buckets);
-
-		let html = "<div id='topclasses'><h4>Top 10 classes:</h4>";
-		let buckets = elasticData.aggregations.observationsPerClass.buckets;
-		for (let i = 0; i < buckets.length; i++) {
-//			console.log(buckets[i]);
-			html += "<a href='?type=significant&amp;class=" + buckets[i].key + "'>" + buckets[i].key + "</a>: " + buckets[i].doc_count.toLocaleString() + "<br>"; // templating would be nice...
-		}
-
-		$("#container").html(html + "</div>");
+		$("#chart").html("");
 
 		// Show count
 		let count = elasticData.hits.total;
@@ -372,7 +371,7 @@ function getTaxon() {
 		{
 			$("#ladda").html("");
 			$("#total").text("Species not found");
-			$("#container").html("");
+			$("#chart").html("");
 			return;
 		}
 
@@ -403,7 +402,7 @@ function printHighchart(observationsPerMonth, species, chartTitle, yAxisTitle)
 	}
 
 	$(function () { 
-	    var myChart = Highcharts.chart('container', {
+	    var myChart = Highcharts.chart('chart', {
 	        chart: {
 	            type: 'column'
 	        },
