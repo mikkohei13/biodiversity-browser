@@ -23,6 +23,7 @@
 
 			<div id="form">
 
+				<h4>Search for a species (scientific name):</h4>
 				<div id="namesearch">
 					<input type="text" id="species"></input>
 					<button name="search" id="search">Search</button>
