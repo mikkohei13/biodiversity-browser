@@ -9,47 +9,60 @@ Variables regarding Highcharts are handled with function arguments, so that crea
 
 "use strict";
 
+console.log();
+
 let options = {};
+    options.indexName = "se-all";
 
-function doInit()
-{
-	options.indexName = "se-all";
-
-	let aggrType = $('input[name=aggrtype]:checked').val();
-
-	if ("year" == aggrType)
-	{
-		options.aggregateType = "year";
-		options.periods = 52;
-		options.begin = 1963;
-		options.end = options.begin + options.periods - 1;
-	}
-	else
-	{
-		options.aggregateType = "month";
-		options.periods = 12;
-		options.begin = 1;
-		options.end = options.begin + options.periods - 1;
-	}
-
-	options.significantClass = "Insecta";
-	options.significantYear = 2010;
-}
-
-// -----------------------------------
-// EVENTS
+let urlParams = getURLParams();
 
 // Page load
 $(document).ready(function() {
 	doInit();
-	$("#query").text("Total");
 //	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
 
-	getAll();
-
-	// Testing significant terms search
-//	significantSpecies();
 });
+
+function doInit()
+{
+	if ("significant" == urlParams.type)
+	{
+		options.significantClass = urlParams.class;
+
+		let html = "<h4>Significant species (& record counts) per year:</h4>";
+		$("#container").html(html);
+
+		for (var y = 2000; y <= 2014; y++) {
+			significantSpecies(y);
+		}
+		
+	}
+	else
+	{
+		$("#query").text("Total");
+		let aggrType = $('input[name=aggrtype]:checked').val();
+
+		if ("year" == aggrType)
+		{
+			options.aggregateType = "year";
+			options.periods = 52;
+			options.begin = 1963;
+			options.end = options.begin + options.periods - 1;
+		}
+		else // if (aggrtype == "month")
+		{
+			options.aggregateType = "month";
+			options.periods = 12;
+			options.begin = 1;
+			options.end = options.begin + options.periods - 1;
+		}
+
+		getAll();
+	}
+}
+
+// -----------------------------------
+// EVENTS
 
 // Species search (enter)
 $("#species").keypress(function(event) {
@@ -93,7 +106,7 @@ function doSpeciesSearch()
 // -----------------------------------
 // QUERY ELASTIC
 
-function significantSpecies()
+function significantSpecies(year)
 {
 	let queryObject = {
 	    "query" :
@@ -103,7 +116,7 @@ function significantSpecies()
 	        	"must" :
 	        	[
 	        		{ "term" : { "class" : options.significantClass } },
-	        		{ "term" : { "year" : options.significantYear } }
+	        		{ "term" : { "year" : year } }
 	        	]
 	        }
 	    },
@@ -120,12 +133,19 @@ function significantSpecies()
 	}
 
 	let callback = function(elasticData) {
-
 		console.log(elasticData);
+
+		let html = "<p><strong>" + year + "</strong>: <br>";
+		let buckets = elasticData.aggregations.significantResults.buckets;
+		for (let i = 0; i < buckets.length; i++) {
+			html += buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + "), "; // templating would be nice...
+		}
+		html += "<br>";
+
+		$("#container").append(html);
 	};
 
 	elasticQueryModule.query(queryObject, callback);
-
 }
 
 // Gets JSON for taxon query, which is aggregated & ranged based on global options
@@ -267,11 +287,11 @@ function getAll() {
 	let callback = function(elasticData) {
 //		console.log(elasticData.aggregations.observationsPerClass.buckets);
 
-		let html = "<div id='topclasses'><h4>Top 10 classes:</h4><div>";
+		let html = "<div id='topclasses'><h4>Top 10 classes:</h4>";
 		let buckets = elasticData.aggregations.observationsPerClass.buckets;
 		for (let i = 0; i < buckets.length; i++) {
-			console.log(buckets[i]);
-			html += "<a href='?type=significant&amp;class=" + buckets[i].key + "'>" + buckets[i].key + "</a>: " + buckets[i].doc_count.toLocaleString() + "<br>";
+//			console.log(buckets[i]);
+			html += "<a href='?type=significant&amp;class=" + buckets[i].key + "'>" + buckets[i].key + "</a>: " + buckets[i].doc_count.toLocaleString() + "<br>"; // templating would be nice...
 		}
 
 		$("#container").html(html + "</div>");
@@ -431,4 +451,24 @@ function getHighchartsDataSeries(observationsPerMonth, seriesName)
 	};
 
 	return series;
+}
+
+// ----------------------------------
+// HELPERS
+
+// Function by Ates Goral
+// http://stackoverflow.com/questions/979975/how-to-get-the-value-from-the-get-parameters
+function getURLParams() {
+	let qs = document.location.search;
+    qs = qs.split('+').join(' ');
+
+    let params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
 }

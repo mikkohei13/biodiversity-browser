@@ -21,6 +21,9 @@
 
 		<div id="content">
 
+<?php 
+if ("significant" != $_GET['type']) {
+?>
 			<div id="form">
 
 				<h4>Search for a species (scientific name):</h4>
@@ -44,8 +47,10 @@
 					<label><input type="radio" name="aggrtype" value="month">Month</label>
 				</div>
 
-				</div>
-
+			</div>
+<?php
+}
+?>
 				<div id="results">
 					<h2 id="query"></h2>
 					<span id="total"></span>
