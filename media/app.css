@@ -125,6 +125,16 @@ h1 {
 	padding: 5px;
 }
 
+.show
+{
+	display: table-cell !important;
+}
+
+.hide
+{
+	display: none !important;
+}
+
 .bar
 {
 	display: block;

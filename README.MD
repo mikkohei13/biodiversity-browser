@@ -45,4 +45,4 @@ Site: total & data sources
 - Species charts
 - Species maps (remembers species selection)
 - Classes (& significant species)
-- Backround info
+- About

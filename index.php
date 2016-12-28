@@ -32,8 +32,8 @@ if ("significant" != $_GET['type']) {
 ?>
 		<div id="form">
 
-			<h4>Search for a species (scientific name):</h4>
 			<div id="namesearch">
+				<h4>Search for a species (scientific name):</h4>
 				<input type="text" id="species"></input>
 				<button name="search" id="search">Search</button>
 				<div id="ladda"></div>

@@ -9,8 +9,6 @@ Variables regarding Highcharts are handled with function arguments, so that crea
 
 "use strict";
 
-console.log();
-
 let options = {};
     options.indexName = "se-all";
 
@@ -30,11 +28,48 @@ $(document).ready(function() {
 
 // Navigation
 $("#nav a").click(function() {
-	$(".active").removeClass("active");
-	document.getElementById(this.id).className = "active";
+	navigateTo(this.id);
 });
 
+function navigateTo(id)
+{
+	$(".active").removeClass("active");
+	document.getElementById(id).className = "active";
 
+	console.log(id);
+
+	if ("chart" == id)
+	{
+		showElement("#namesearch");
+		showElement("#comparison");
+		showElement("#aggrtype");
+	}
+	else if ("map" == id)
+	{
+		showElement("#namesearch");
+		hideElement("#comparison");
+		hideElement("#aggrtype");
+	}
+	else if ("class" == id)
+	{
+		hideElement("#namesearch");
+		hideElement("#comparison");
+		hideElement("#aggrtype");
+	}
+}
+
+function showElement(id)
+{
+	console.log("HERE" + id);
+	$(id).addClass("show");
+	$(id).removeClass("hide");
+}
+
+function hideElement(id)
+{
+	$(id).addClass("hide");
+	$(id).removeClass("show");
+}
 
 
 // --------------------
