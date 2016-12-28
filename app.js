@@ -51,6 +51,7 @@ function navigateTo(id)
 
 	// Clear results
 	$("#container").html("");
+	$("#containerresults").remove();
 
 	console.log(id);
 
@@ -207,9 +208,9 @@ function doClassSearch() {
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted + " occurrences, out of which " + Math.round(topcount / count * 100 * 10) / 10 + " % from these top classes:");
 
+		$("#container").before("<div id='containerresults'></div>");
 		$("#classlist").on('click', function(event) {
-			let className = $(event.target).attr("data-class-name");
-			console.log(className);
+			doClassSignifiganceQuery(event);
 		});
 
 	};
@@ -260,8 +261,18 @@ function doSourceSearch() {
 	elasticQueryModule.query(queryObject, callback);
 }
 
-function significantSpecies(year)
-{
+function doClassSignifiganceQuery(event) {
+	let className = $(event.target).attr("data-class-name");
+	console.log(className);
+	$("#containerresults").html("");
+
+	// todo: is async query ok? use promise??
+	for (let y = 2005; y <= 2015; y++) {
+		significantSpecies(className, y);
+	}
+}
+
+function significantSpecies(className, year) {
 	let queryObject = {
 	    "query" :
 	    {
@@ -269,7 +280,7 @@ function significantSpecies(year)
 	        {
 	        	"must" :
 	        	[
-	        		{ "term" : { "class" : options.significantClass } },
+	        		{ "term" : { "class" : className } },
 	        		{ "term" : { "year" : year } }
 	        	]
 	        }
@@ -296,7 +307,7 @@ function significantSpecies(year)
 		}
 		html += "<br>";
 
-		$("#container").append(html);
+		$("#containerresults").prepend(html);
 	};
 
 	elasticQueryModule.query(queryObject, callback);

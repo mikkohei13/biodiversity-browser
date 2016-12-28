@@ -137,7 +137,18 @@ h1 {
 
 #container
 {
-	width: 95%;
+/*	width: 95%; */
+}
+
+#containerresults
+{
+	float: right;
+	width: 50%;
+}
+
+#classlist li
+{
+	cursor: pointer;
 }
 
 .bar
