@@ -19,6 +19,7 @@ let urlParams = getURLParams();
 // Page load
 $(document).ready(function() {
 	doInit();
+	getAll();
 //	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
 
 });
@@ -29,7 +30,7 @@ function doInit()
 	{
 		options.significantClass = urlParams.class;
 
-		let html = "<h4>Significant species (& record counts) per year:</h4>";
+		let html = "<h4>Significant species (and % of all records) per year:</h4>";
 		$("#container").html(html);
 
 		for (var y = 2000; y <= 2014; y++) {
@@ -39,7 +40,6 @@ function doInit()
 	}
 	else
 	{
-		$("#query").text("Total");
 		let aggrType = $('input[name=aggrtype]:checked').val();
 
 		if ("year" == aggrType)
@@ -56,8 +56,6 @@ function doInit()
 			options.begin = 1;
 			options.end = options.begin + options.periods - 1;
 		}
-
-		getAll();
 	}
 }
 
@@ -138,7 +136,7 @@ function significantSpecies(year)
 		let html = "<p><strong>" + year + "</strong>: <br>";
 		let buckets = elasticData.aggregations.significantResults.buckets;
 		for (let i = 0; i < buckets.length; i++) {
-			html += buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + "), "; // templating would be nice...
+			html += buckets[i].key + " (" + Math.round((buckets[i].doc_count / buckets[i].bg_count) * 100) + " %), "; // templating would be nice...
 		}
 		html += "<br>";
 
@@ -273,6 +271,10 @@ function calculateProportions(speciesPerMonth) {
 
 // Get summary of all data
 function getAll() {
+	$("#query").text("Total");
+	$("#container").text("");
+
+
 	let queryObject = {
     	"aggregations" : {
     		"observationsPerClass" : {
