@@ -157,13 +157,13 @@ h1 {
 	width: 50%;
 }
 
-#classlist li
+#itemlist li
 {
 	cursor: pointer;
 	color: rgba(0, 106, 167, 1);
 }
 
-#classlist li:hover
+#itemlist li:hover
 {
 	text-decoration: underline;
 }

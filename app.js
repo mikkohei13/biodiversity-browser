@@ -190,13 +190,13 @@ function doClassSearch() {
 
 	let callback = function(elasticData) {
 
-		let html = "<h4>Top " + classCount + " classes:</h4><ol id='classlist'>";
+		let html = "<h4>Top " + classCount + " classes:</h4><ol id='itemlist'>";
 		let buckets = elasticData.aggregations.observationsPerClass.buckets;
 		let topcount = 0;
 
 		for (let i = 0; i < buckets.length; i++) {
 //			console.log(buckets[i]);
-			html += "<li data-class-name='" + buckets[i].key + "'>" + buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + ")<br>"; // templating would be nice...
+			html += "<li data-item-name='" + buckets[i].key + "'>" + buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + ")<br>"; // templating would be nice...
 			topcount = topcount + buckets[i].doc_count;
 		}
 		html += "</ol>";
@@ -208,11 +208,11 @@ function doClassSearch() {
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted + " occurrences, out of which " + Math.round(topcount / count * 100 * 10) / 10 + " % from these top classes:");
 
+		// Significance query event handler
 		$("#container").before("<div id='containerresults'></div>");
-		$("#classlist").on('click', function(event) {
-			doClassSignifiganceQuery(event);
+		$("#itemlist").on('click', function(event) {
+			doSignifiganceQuery(event, "class");
 		});
-
 	};
 
 	elasticQueryModule.query(queryObject, callback);
@@ -239,13 +239,13 @@ function doSourceSearch() {
 
 	let callback = function(elasticData) {
 
-		let html = "<h4>Top " + institutionCount + " institutions:</h4><ol>";
+		let html = "<h4>Top " + institutionCount + " institutions:</h4><ol id='itemlist'>";
 		let buckets = elasticData.aggregations.observationsPerInstitution.buckets;
 		let topcount = 0;
 
 		for (let i = 0; i < buckets.length; i++) {
 //			console.log(buckets[i]);
-			html += "<li>" + buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + ")</li>"; // templating would be nice...
+			html += "<li data-item-name='" + buckets[i].key + "'>" + buckets[i].key + " (" + buckets[i].doc_count.toLocaleString() + ")</li>"; // templating would be nice...
 			topcount = topcount + buckets[i].doc_count;
 		}
 		html += "</ol>";
@@ -256,23 +256,35 @@ function doSourceSearch() {
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
 		$("#total").text(countFormatted + " occurrences, out of which " + Math.round(topcount / count * 100 * 10) / 10 + " % from these top institutions:");
+
+		// Significance query event handler
+		$("#container").before("<div id='containerresults'></div>");
+		$("#itemlist").on('click', function(event) {
+			doSignifiganceQuery(event, "institutioncode");
+		});
 	};
 
 	elasticQueryModule.query(queryObject, callback);
 }
 
-function doClassSignifiganceQuery(event) {
-	let className = $(event.target).attr("data-class-name");
-	console.log(className);
+function doSignifiganceQuery(event, field) {
+	let name = $(event.target).attr("data-item-name");
 	$("#containerresults").html("");
 
 	// todo: is async query ok? use promise??
-	for (let y = 2005; y <= 2015; y++) {
-		significantSpecies(className, y);
+	if ("class" == field)
+	{
+		for (let y = 2005; y <= 2015; y++) {
+			significantSpecies(field, name, y);
+		}
+	}
+	else if ("institutioncode" == field)
+	{
+		significantSpecies(field, name, "all years");
 	}
 }
 
-function significantSpecies(className, year) {
+function significantSpecies(field, name, year) {
 	let queryObject = {
 	    "query" :
 	    {
@@ -280,8 +292,6 @@ function significantSpecies(className, year) {
 	        {
 	        	"must" :
 	        	[
-	        		{ "term" : { "class" : className } },
-	        		{ "term" : { "year" : year } }
 	        	]
 	        }
 	    },
@@ -295,6 +305,22 @@ function significantSpecies(className, year) {
 	        	}
 	        }
 	    }
+	}
+
+	if ("class" == field)
+	{
+		queryObject.query.bool.must[0] = { "term" : {
+			"class" : name
+		} };
+		queryObject.query.bool.must[1] = { "term" : {
+			"year" : year
+		} };
+	}
+	else if ("institutioncode" == field)
+	{
+		queryObject.query.bool.must[0] = { "term" : {
+			"institutioncode" : name
+		} };
 	}
 
 	let callback = function(elasticData) {
