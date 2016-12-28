@@ -31,6 +31,9 @@ function doInit()
 		options.begin = 1;
 		options.end = options.begin + options.periods - 1;
 	}
+
+	options.significantClass = "Insecta";
+	options.significantYear = 2010;
 }
 
 // -----------------------------------
@@ -99,9 +102,8 @@ function significantSpecies()
 	        {
 	        	"must" :
 	        	[
-	        		{ "term" : { "class" : "Aves" } },
-	        		{ "term" : { "year" : 2013 } },
-	        		{ "term" : { "month" : 12 } }
+	        		{ "term" : { "class" : options.significantClass } },
+	        		{ "term" : { "year" : options.significantYear } }
 	        	]
 	        }
 	    },
