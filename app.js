@@ -37,7 +37,6 @@ $("#nav a").click(function() {
 $("#species").keypress(function(event) {
 	if (event.which == 13) {
 		$("#ladda").html("<img src='media/spinner.svg'>");
-		doInit();
 		doSpeciesSearch();
 	}
 });
@@ -45,7 +44,6 @@ $("#species").keypress(function(event) {
 // Species search (button)
 $( "#search" ).click(function() {
 	$("#ladda").html("<img src='media/spinner.svg'>");
-	doInit();
 	doSpeciesSearch();
 });
 
@@ -96,35 +94,12 @@ function hideElement(id)
 }
 
 
-// --------------------
-
-function doInit()
-{
-
-
-	let aggrType = $('input[name=aggrtype]:checked').val();
-
-	if ("year" == aggrType)
-	{
-		options.aggregateType = "year";
-		options.periods = 52;
-		options.begin = 1963;
-		options.end = options.begin + options.periods - 1;
-	}
-	else // if (aggrtype == "month")
-	{
-		options.aggregateType = "month";
-		options.periods = 12;
-		options.begin = 1;
-		options.end = options.begin + options.periods - 1;
-	}
-
-}
-
+// -----------------------------------
+// SPECIES SEARCH
 
 function doSpeciesSearch()
 {
-	options.species = $("#species").val();
+	initSearchParameters();
 
 	if (options.species == "") {
 		$("#query").text("");
@@ -144,6 +119,27 @@ function doSpeciesSearch()
 	}
 }
 
+function initSearchParameters()
+{
+	options.species = $("#species").val();
+
+	let aggrType = $('input[name=aggrtype]:checked').val();
+
+	if ("year" == aggrType)
+	{
+		options.aggregateType = "year";
+		options.periods = 52;
+		options.begin = 1963;
+		options.end = options.begin + options.periods - 1;
+	}
+	else // if (aggrtype == "month")
+	{
+		options.aggregateType = "month";
+		options.periods = 12;
+		options.begin = 1;
+		options.end = options.begin + options.periods - 1;
+	}
+}
 
 // -----------------------------------
 // QUERY ELASTIC
