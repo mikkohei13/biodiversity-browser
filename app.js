@@ -41,7 +41,11 @@ $(document).ready(function() {
 	doInit();
 	$("#query").text("Total");
 //	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
-	getAll();
+
+//	getAll();
+
+	// Testing significant terms search
+	significantSpecies();
 });
 
 // Species search (enter)
@@ -85,6 +89,42 @@ function doSpeciesSearch()
 
 // -----------------------------------
 // QUERY ELASTIC
+
+function significantSpecies()
+{
+	let queryObject = {
+	    "query" :
+	    {
+	        "bool" :
+	        {
+	        	"must" :
+	        	[
+	        		{ "term" : { "class" : "Aves" } },
+	        		{ "term" : { "year" : 2013 } },
+	        		{ "term" : { "month" : 12 } }
+	        	]
+	        }
+	    },
+	    "aggregations" : 
+	    {
+	        "significantResults" : 
+	        {
+	            "significant_terms" : 
+	            {
+	            	"field" : "species" 
+	        	}
+	        }
+	    }
+	}
+
+	let callback = function(elasticData) {
+
+		console.log(elasticData);
+	};
+
+	elasticQueryModule.query(queryObject, callback);
+
+}
 
 // Gets JSON for taxon query, which is aggregated & ranged based on global options
 function getQueryObject(rank, taxon)
