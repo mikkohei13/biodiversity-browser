@@ -11,10 +11,10 @@ Variables regarding Highcharts are handled with function arguments, so that crea
 
 let options = {};
     options.indexName = "se-all";
-    options.activePage = "chartpage";
 
 // Page load
 $(document).ready(function() {
+    options.activePage = "chartpage";
 	doTotalsSearch();
 //	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
 
@@ -49,6 +49,7 @@ function navigateTo(id)
 	$(".active").removeClass("active");
 	document.getElementById(id).className = "active";
 
+	// Clear results
 	$("#query").html("");
 	$("#total").html("");
 	$("#chart").html("");
