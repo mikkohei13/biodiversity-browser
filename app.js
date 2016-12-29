@@ -6,8 +6,23 @@ Most variables are handled with the globar object options.
 Variables regarding Highcharts are handled with function arguments, so that creating several charts is possible.
 
 */
-
 "use strict";
+
+
+// http://stackoverflow.com/questions/37166172/mapbox-tiles-and-leafletjs
+var mymap = L.map('mapid').setView([57.78670, 14.21844], 13);
+L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'outdoors-v9',
+    accessToken: mapboxAccessToken
+}).addTo(mymap);
+
+
+
+
+
+
 
 let options = {};
     options.indexName = "se-all";
@@ -17,6 +32,9 @@ $(document).ready(function() {
     options.activePage = "chartpage";
 	doTotalsSearch();
 //	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
+
+//	Testing Leaflet map
+//	setMap();
 
 });
 
@@ -70,6 +88,8 @@ function navigateTo(id)
 		showElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
+
+//		setMap();
 	}
 	else if ("classpage" == id)
 	{
@@ -101,6 +121,12 @@ function hideElement(id)
 {
 	$(id).addClass("hide");
 	$(id).removeClass("show");
+}
+
+function setMap()
+{
+//	var mymap = L.map('mapid').setView([57.78670, 14.21844], 13);
+	console.log(mymap);
 }
 
 // -----------------------------------

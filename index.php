@@ -8,9 +8,12 @@
 
 		<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 		<link rel="stylesheet" href="media/app.css" media="all" />
+		<link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" media="all" />
 
+	    <script src="keys.js"></script>
 	    <script src="node_modules/jquery/dist/jquery.min.js"></script>
 	    <script src="node_modules/highcharts/highcharts.js"></script>
+	    <script src="node_modules/leaflet/dist/leaflet.js"></script>
 
 		</script>
 	</head>
@@ -62,6 +65,7 @@ if ("significant" != $_GET['type']) {
 			<div id="results">
 				<h2 id="query"></h2>
 				<span id="total"></span>
+				<div id="mapid"></div>
 				<div id="container"></div>
 			</div>
 

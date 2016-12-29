@@ -29,54 +29,18 @@ $color1: rgba(0, 106, 167, 1); sapphire blue
 $color2: rgba(254, 204, 0, 1); usc gold
 $color3: rgba(232, 235, 228, 1); platinum (very light grey)
 rgba(244, 247, 240, 1); (very very light grey)
-$color4: rgba(214, 217, 206, 1); timberwolf (light grey)
+$color4: #91918F; spanish gray (light grey)
 $color5: rgba(54, 55, 50, 1); jet (dark gray)
 
 */
 
-body
-{
-	padding: 0;
-	margin: 0;
-	font-family: Arial, Helvetica, sans-serif;
-	color: rgba(54, 55, 50, 1);
-}
+#mapid { height: 250px; }
 
-a:link, a:visited, a:active
+#form
 {
-	color: rgba(0, 106, 167, 1);
-	text-decoration: none;
-}
-
-a:hover
-{
-	text-decoration: underline;
-}
-
-header
-{
-	padding: 10px 10px 0 10px;
-	background-color: rgba(0, 106, 167, 1);
-	color: #ffffff;
-}
-
-header
-{
-	border-right: 10px solid rgba(254, 204, 0, 1);
-}
-
-header h1 
-{
-	margin-bottom: 15px;
-	float: left;
-}
-
-#tagline
-{
-	margin-left: 0.8em;
-	position: relative;
-	top: 1.1em;
-	color: rgba(214, 217, 206, 1);
+	background-color: rgba(232, 235, 228, 1);
+	border-right: 20px solid rgba(244, 247, 240, 1);
+	padding: 10px;
 }
 
 #nav
@@ -109,6 +73,62 @@ header h1
 	color: #000;
 }
 
+/* Swedish flag colors */
+/*
+#form,
+#nav .active
+{
+	background-color: rgba(254, 204, 0, 1);
+}
+*/
+
+body
+{
+	padding: 0;
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	color: rgba(54, 55, 50, 1);
+}
+
+a:link, a:visited, a:active
+{
+	color: rgba(0, 106, 167, 1);
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+header
+{
+	padding: 10px 10px 0 10px;
+	background-color: rgba(0, 106, 167, 1);
+	color: #ffffff;
+}
+
+header
+{
+	border-right: 20px solid rgba(254, 204, 0, 1);
+}
+
+header h1 
+{
+	margin-bottom: 15px;
+	float: left;
+}
+
+#tagline
+{
+	margin-left: 0.8em;
+	position: relative;
+	top: 1.1em;
+	color: rgba(214, 217, 206, 1);
+}
+
+
+
 h1, h2, h3, h4, h5, h6 {
 	font-family: Lato;
 	margin: 0.3em 0 0.5em 0;
@@ -123,12 +143,6 @@ h1 {
 	padding: 10px;
 }
 
-#form
-{
-	background-color: rgba(232, 235, 228, 1);
-	border-right: 10px solid rgba(244, 247, 240, 1);
-	padding: 10px;
-}
 
 #namesearch, #comparison, #aggrtype
 {
