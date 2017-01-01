@@ -218,6 +218,7 @@ function doClassSearch() {
 	let classCount = 50;
 
 	let queryObject = {
+		"size" : 0,
     	"aggregations" : {
     		"observationsPerClass" : {
     			"terms" : {
@@ -267,6 +268,7 @@ function doSourceSearch() {
 	let institutionCount = 100;
 
 	let queryObject = {
+		"size" : 0,
     	"aggregations" : {
     		"observationsPerInstitution" : {
     			"terms" : {
@@ -525,6 +527,7 @@ function doTotalsSearch() {
 
 function getTaxon() {
 	let queryObject = {
+		"size" : 0,
     	"query" : {
         	"term" : {
         		"species" : options.species
