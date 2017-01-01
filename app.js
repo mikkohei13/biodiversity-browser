@@ -383,6 +383,7 @@ function significantSpecies(field, name, year) {
 function getQueryObject(rank, taxon)
 {
 	let queryObject = {
+		"size" : 0,
     	"query" :
     	{
     		"bool" :
