@@ -5,10 +5,10 @@ var elasticQueryModule = (function () {
 	function getAjaxParams(queryData) {
 		return {
 			method: "POST",
-			url: "http://192.168.56.10:9200/" + options.indexName + "/_search",
+			url: elasticUrl + options.indexName + "/_search",
 			data: queryData,
 			beforeSend: function (xhr) {
-			    xhr.setRequestHeader ("Authorization", "Basic " + btoa("elastic" + ":" + "changeme"));
+			    xhr.setRequestHeader ("Authorization", "Basic " + btoa(elasticUsername + ":" + elasticPassword));
 			}
 		}	
 	}
