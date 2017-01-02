@@ -75,21 +75,21 @@ $( "#search" ).click(function() {
 
 /*
 Navigation logic: changing page clears results, but keeps form contents
+Todo: Handlebars templates
 */
 function navigateTo(id)
 {
+	// Change tab
 	$(".active").removeClass("active");
 	document.getElementById(id).className = "active";
+	clearResults();
 
-	// Clear results
-	$("#container").html("");
-	$("#containerresults").remove();
-
-	console.log(id);
+	console.log("Tab " + id);
 
 	if ("chartpage" == id)
 	{
 		options.activePage = "chartpage";
+		doTotalsSearch();
 
 		showElement("#namesearch");
 		showElement("#comparison");
@@ -98,12 +98,11 @@ function navigateTo(id)
 	else if ("mappage" == id)
 	{
 		options.activePage = "mappage";
+//		setMap();
 
 		showElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
-
-//		setMap();
 	}
 	else if ("classpage" == id)
 	{
@@ -126,11 +125,19 @@ function navigateTo(id)
 	else if ("aboutpage" == id)
 	{
 		options.activePage = "aboutpage";
+		$("#query").html("");
 
 		hideElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
 	}
+}
+
+function clearResults()
+{
+	$("#container").html("");
+	$("#total").html("");
+	$("#containerresults").remove();
 }
 
 function showElement(id)
