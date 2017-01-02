@@ -30,7 +30,7 @@ Technical Todo
 
 MUST (before release)
 - Test with FF, IE, Edge
-- About page content
+- About page content - proofread
 - Info texts
 
 SHOULD

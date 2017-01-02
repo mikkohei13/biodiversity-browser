@@ -103,12 +103,15 @@ function navigateTo(id)
 		hideElement("#comparison");
 		hideElement("#aggrtype");
 
-		let source = $("#entry-template").html();
-		let template = Handlebars.compile(source);
-		let context = {title: "My New Post", body: "This is my first post!"};
-		let html = template(context);
-		$("#container").html(html);
+		updateTemplate("about-page", "container", {});
 	}
+}
+
+function updateTemplate(sourceId, destinationId, context) {
+	let source = $("#"+sourceId).html();
+	let template = Handlebars.compile(source);
+	let html = template(context);
+	$("#"+destinationId).html(html);
 }
 
 function clearResults()
