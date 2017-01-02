@@ -28,18 +28,28 @@ Ideas
 Technical Todo
 --------------
 
-- Elasticsearch on AWS or elsewhere? (11 GB index for 51M records) - with username management
+MUST (before release)
+- Test with FF, IE, Edge
+- About page content
+- Info texts
+
+SHOULD
 - Map
-- About page, documentation, help texts
-- cache metadata (localstorage; update frequency?)
+- Warming the index / cache <https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-request-cache.html>
+- Repo documentation
 - Autocomplete species name (Elasticsearch suggestions?)
-- Tabs for subtools/pages (browser history?)
+- Addresses for tabs (browser history?)
 - Templating (Handlebars/Ember)
-- URL Routing (Ember?)
 - Refactor names:
 	- getmonths -> getperiods
 	- get -> do
 	- use same div for all results (chart/map/class)?
+
+NICE
+
+- URL Routing (Ember?)
+- Favicon
+
 
 **Site logical structure draft:**
 
