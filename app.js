@@ -114,10 +114,18 @@ function navigateTo(id)
 		hideElement("#comparison");
 		hideElement("#aggrtype");
 	}
+	else if ("sourcepage" == id)
+	{
+		options.activePage = "sourcepage";
+		doSourceSearch();
+
+		hideElement("#namesearch");
+		hideElement("#comparison");
+		hideElement("#aggrtype");
+	}
 	else if ("aboutpage" == id)
 	{
 		options.activePage = "aboutpage";
-		doSourceSearch();
 
 		hideElement("#namesearch");
 		hideElement("#comparison");
