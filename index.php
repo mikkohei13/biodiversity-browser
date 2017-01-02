@@ -14,8 +14,11 @@
 	    <script src="keys.js<?php echo $version; ?>"></script>
 	    <script src="node_modules/jquery/dist/jquery.min.js"></script>
 	    <script src="node_modules/highcharts/highcharts.js"></script>
+	    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
+	    <!--
 	    <script src="node_modules/leaflet/dist/leaflet.js"></script>
 	    <script src="node_modules/latlon-geohash/latlon-geohash.js"></script>
+	    -->
 
 		</script>
 	</head>

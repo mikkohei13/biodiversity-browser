@@ -2,6 +2,8 @@
 
 // Testing Leaflet map
 
+// REMEMBER TO COMMENT-IN ALSO Leadlet & Geohash libraries
+
 function setMap()
 {
 //	var mymap = L.map('mapid').setView([57.78670, 14.21844], 13);
