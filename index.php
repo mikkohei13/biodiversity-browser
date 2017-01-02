@@ -75,6 +75,7 @@ if ("significant" != $_GET['type']) {
 		</div>
 
 		<script src="elasticquery.js<?php echo $version; ?>"></script>
+		<script src="map.js<?php echo $version; ?>"></script>
 		<script src="app.js<?php echo $version; ?>"></script>
 		</script>
 	</body>
