@@ -42,7 +42,7 @@ $color5: rgba(54, 55, 50, 1); jet (dark gray)
 #form
 {
 	background-color: rgba(232, 235, 228, 1);
-	border-right: 20px solid rgba(244, 247, 240, 1);
+	border-right: 25px solid rgba(244, 247, 240, 1);
 	padding: 10px;
 }
 
@@ -107,13 +107,19 @@ a:hover
 header
 {
 	padding: 10px 10px 0 10px;
-	background-color: rgba(0, 106, 167, 1);
 	color: #ffffff;
 }
 
 header
 {
-	border-right: 20px solid rgba(254, 204, 0, 1);
+/*	border-right: 20px solid rgba(254, 204, 0, 1);*/
+/*
+	background-image: url("media/scandinavia.png");
+	background-position: top right;
+	background-repeat: repeat-y;
+	background-color: rgba(0, 106, 167, 1);
+*/
+	background: rgba(0, 106, 167, 1) url("scandinavia.png") repeat-y right top;
 }
 
 header h1 
