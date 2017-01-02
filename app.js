@@ -45,7 +45,7 @@ let options = {};
 $(document).ready(function() {
     options.activePage = "chartpage";
 	doTotalsSearch();
-//	options.species = "Luscinia luscinia"; getTaxon(); $("#query").text("Debugging with " + options.species); return; // DEBUG
+//	options.species = "Luscinia luscinia"; getTaxon(); $("#heading").text("Debugging with " + options.species); return; // DEBUG
 
 //	Testing Leaflet map
 //	setMap();
@@ -125,7 +125,7 @@ function navigateTo(id)
 	else if ("aboutpage" == id)
 	{
 		options.activePage = "aboutpage";
-		$("#query").html("");
+		$("#heading").html("About this site");
 
 		hideElement("#namesearch");
 		hideElement("#comparison");
@@ -197,7 +197,7 @@ function doSpeciesChartSearch()
 		options.comparisonRank = rank;
 		getComparison();
 	}
-	$("#query").text(options.species);
+	$("#heading").text(options.species);
 }
 
 function initSearchParameters()
@@ -228,7 +228,7 @@ function initSearchParameters()
 function doClassSearch() {
 
 	$("#container").html("<img src='media/spinner.svg'>");
-	$("#query").text("Total");
+	$("#heading").text("Total");
 
 	let classCount = 50;
 
@@ -278,7 +278,7 @@ function doClassSearch() {
 function doSourceSearch() {
 
 	$("#container").html("<img src='media/spinner.svg'>");
-	$("#query").text("Total");
+	$("#heading").text("Total");
 
 	let institutionCount = 100;
 
@@ -522,7 +522,7 @@ function calculateProportions(speciesPerMonth) {
 
 // Get summary of all data
 function doTotalsSearch() {
-	$("#query").text("Total");
+	$("#heading").text("Total");
 	$("#container").html("");
 
 	let queryObject = {};
