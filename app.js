@@ -69,6 +69,8 @@ function navigateTo(id)
 	{
 		options.activePage = "mappage";
 //		setMap();
+		$("#heading").html("Aggregated map");
+		$("#container").html("Map under construction...");
 
 		showElement("#namesearch");
 		hideElement("#comparison");
