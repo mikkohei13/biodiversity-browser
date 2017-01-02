@@ -80,6 +80,6 @@ if ("significant" != $_GET['type']) {
 		<script src="elasticquery.js<?php echo $version; ?>"></script>
 		<script src="map.js<?php echo $version; ?>"></script>
 		<script src="app.js<?php echo $version; ?>"></script>
-		</script>
+		<?php include_once "handlebars-templates.php"; ?>
 	</body>
 </html>

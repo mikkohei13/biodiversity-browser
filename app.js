@@ -102,6 +102,12 @@ function navigateTo(id)
 		hideElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
+
+		let source = $("#entry-template").html();
+		let template = Handlebars.compile(source);
+		let context = {title: "My New Post", body: "This is my first post!"};
+		let html = template(context);
+		$("#container").html(html);
 	}
 }
 
