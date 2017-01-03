@@ -154,6 +154,7 @@ function initSpeciesSearch()
 
 	// if empty search
 	if ($("#species").val() == "") {
+		clearMap();
 		doTotalsSearch();
 	}
 	else {

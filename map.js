@@ -21,15 +21,18 @@ function initMap()
             accessToken: mapboxAccessToken
         }).addTo(mymap);
     }
+    
+    clearMap();
+    getTaxonMap();
+}
 
+function clearMap() {
     // Remove old markers
     if (undefined != circleGroup)
     {
         mymap.removeLayer(circleGroup);
         largestDoc_count = undefined;
-    }
-
-    getTaxonMap();
+    }    
 }
 
 
