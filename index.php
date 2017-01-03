@@ -15,10 +15,8 @@
 	    <script src="node_modules/jquery/dist/jquery.min.js"></script>
 	    <script src="node_modules/highcharts/highcharts.js"></script>
 	    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
-	    <!--
 	    <script src="node_modules/leaflet/dist/leaflet.js"></script>
 	    <script src="node_modules/latlon-geohash/latlon-geohash.js"></script>
-	    -->
 
 		</script>
 	</head>
@@ -28,7 +26,7 @@
 			<span id="tagline">85+ million occurrence records from Scandinavia</span>
 			<ul id="nav">
 				<li><a href="#" id="chartpage" class="active">Species chart</a></li>
-				<!--<li><a href="#" id="mappage">Species map</a></li>-->
+				<li><a href="#" id="mappage">Species map</a></li>
 				<li><a href="#" id="classpage">Classes</a></li>
 				<li><a href="#" id="sourcepage">Sources</a></li>
 				<li><a href="#" id="aboutpage">About</a></li>

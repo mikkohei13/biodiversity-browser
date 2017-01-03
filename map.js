@@ -1,7 +1,5 @@
-/*
 
 // Testing Leaflet map
-
 // REMEMBER TO COMMENT-IN ALSO Leadlet & Geohash libraries
 
 function setMap()
@@ -35,4 +33,47 @@ let circle2 = L.circle([57.78, 14.21], {
 }).addTo(mymap);
 circle2.bindPopup("YYY occurrences");
 
-*/
+
+function getTaxonMap()
+{
+    let queryObject = {
+        "size" : 0,
+        "query" : {
+            "term" : {
+                "species" : options.species
+            }
+        },
+        "aggregations" : {
+            "grid" : {
+                "geohash_grid" : {
+                    "field" : "coordinates",
+                    "precision" : 3
+                }
+            }
+        }
+    };
+
+    console.log(queryObject);
+
+    let callback = function(elasticData) {
+
+        let count = elasticData.hits.total;
+        if (0 == count)
+        {
+            $("#ladda").html("");
+            $("#total").text("Species not found");
+            $("#container").html("");
+            return;
+        }
+
+        // Leaflet map
+        console.log("Mapdata:");
+        console.log(elasticData);
+
+        // Show count
+        let countFormatted = count.toLocaleString();
+        $("#total").text(countFormatted + " occurrences");
+    };
+
+    elasticQueryModule.query(queryObject, callback);
+}

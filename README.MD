@@ -29,6 +29,7 @@ Technical Todo
 --------------
 
 MUST (before release)
+- Browser requirements? (let?)
 - Test with FF, IE, Edge
 - About page content - proofread
 - Info texts

@@ -36,8 +36,8 @@ $color5: rgba(54, 55, 50, 1); jet (dark gray)
 
 #mapid
 {
-	height: 250px;
-		display: none;
+	height: 350px;
+/*		display: none;*/
 }
 
 #form
