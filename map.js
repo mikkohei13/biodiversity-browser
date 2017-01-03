@@ -21,7 +21,7 @@ function initMap()
             accessToken: mapboxAccessToken
         }).addTo(mymap);
     }
-    
+
     clearMap();
     getTaxonMap();
 }
@@ -71,6 +71,8 @@ function getTaxonMap()
             // Leaflet map
             console.log("Mapdata:");
             console.log(elasticData);
+
+            $("#heading").text(options.species);
             drawMap(elasticData);
 
             // Show count

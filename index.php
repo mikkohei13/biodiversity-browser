@@ -32,11 +32,6 @@
 				<li><a href="#" id="aboutpage">About</a></li>
 			</ul>
 		</header>
-
-
-<?php 
-if ("significant" != $_GET['type']) {
-?>
 		<div id="form">
 
 			<div id="namesearch">
@@ -61,9 +56,7 @@ if ("significant" != $_GET['type']) {
 			</div>
 
 		</div>
-<?php
-}
-?>
+
 		<div id="content">
 
 			<div id="results">

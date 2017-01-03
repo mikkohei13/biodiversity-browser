@@ -72,6 +72,7 @@ function navigateTo(id)
 	else if ("mappage" == id)
 	{
 		options.activePage = "mappage";
+	    clearMap();
 		$("#heading").html("Aggregated map");
 
 		showElement("#namesearch");
