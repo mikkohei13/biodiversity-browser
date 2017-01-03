@@ -117,10 +117,8 @@ function createMarker(bucket)
     if (undefined == largestDoc_count)
     {
         largestDoc_count = bucket.doc_count;
-        console.log(largestDoc_count);
     }
     let size = Math.floor(bucket.doc_count / largestDoc_count * 15000);
-    console.log("size:" + size)
 
     let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
         color: '#006AA7',
@@ -129,7 +127,7 @@ function createMarker(bucket)
         radius: size
     })
 //    console.log(circle);
-    circle.bindPopup(bucket.doc_count + " occurrences / size: " + size);
+    circle.bindPopup(bucket.doc_count + " occurrences");
     return circle;
 }
 

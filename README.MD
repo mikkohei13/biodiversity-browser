@@ -36,8 +36,9 @@ MUST (before release)
 
 SHOULD
 - Map
-	- circle size, proportional to doc_count
+	- circle color, proportional to doc_count?
 	- use separate element for map?
+	- if species not found, map becomes unavailable
 - Warming the index / cache <https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-request-cache.html>
 - Repo documentation
 - Autocomplete species name (Elasticsearch suggestions?)
