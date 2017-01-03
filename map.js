@@ -123,8 +123,8 @@ function createMarker(bucket)
     console.log("size:" + size)
 
     let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
-        color: 'red',
-        fillColor: '#f03',
+        color: '#006AA7',
+        fillColor: '#006AA7',
         fillOpacity: 0.5,
         radius: size
     })
