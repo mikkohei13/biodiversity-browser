@@ -153,8 +153,9 @@ function initSpeciesSearch()
 		{
 			// Todo: call map search function
 			// THESE ARE TEMP / DEBUG:
-				$("#container").html("MAP GOES HERE!");
-				$("#ladda").html("");
+			options.species = $("#species").val();
+			getTaxonMap();
+//			$("#ladda").html("");
 		}
 	}
 }
@@ -162,7 +163,6 @@ function initSpeciesSearch()
 function doSpeciesChartSearch()
 {
 	initSearchParameters();
-
 
 	let rank = $('input[name=rank]:checked').val();
 	if (rank == "no") {
