@@ -3,6 +3,7 @@
 // REMEMBER TO COMMENT-IN ALSO Leadlet & Geohash libraries
 
 var mymap;
+var circleGroup;
 
 function initMap()
 {
@@ -19,6 +20,13 @@ function initMap()
             accessToken: mapboxAccessToken
         }).addTo(mymap);
     }
+
+    // Remove old markers
+    if (undefined != circleGroup)
+    {
+        mymap.removeLayer(circleGroup);
+    }
+
     getTaxonMap();
 
     /*
@@ -94,18 +102,19 @@ function drawMap(elasticData) {
 //      console.log(buckets[i]);
         coordinateObject = Geohash.decode(buckets[i].key);
 
-let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5,
-    radius: 200
-})
-circle.bindPopup(buckets[i].doc_count + " occurrences");
-circles.push(circle);
+        let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 200
+        })
+        circle.bindPopup(buckets[i].doc_count + " occurrences");
+        circles.push(circle);
     }
 
-    let circleGroup = L.layerGroup(circles);
+    circleGroup = L.layerGroup(circles);
     circleGroup.addTo(mymap);
+    $("#ladda").html("");
 }
 
 
