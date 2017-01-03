@@ -8,7 +8,7 @@ var largestDoc_count;
 
 function initMap()
 {
-    options.species = $("#species").val();
+    options.species = capitalizeFirstLetter($("#species").val());
 
     if (undefined == mymap)
     {
@@ -68,7 +68,8 @@ function getTaxonMap()
         if (0 == count) {
             console.log("DATA MISSING, count == " + count);
             $("#ladda").html("");
-            $("#total").text("Species not found");
+            $("#heading").text("Species not found");
+            $("#total").text("");
             $("#container").html("");
         }
         else {

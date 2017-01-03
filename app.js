@@ -188,7 +188,7 @@ function doSpeciesChartSearch()
 
 function initSearchParameters()
 {
-	options.species = $("#species").val();
+	options.species = capitalizeFirstLetter($("#species").val());
 
 	let aggrType = $('input[name=aggrtype]:checked').val();
 
@@ -206,6 +206,10 @@ function initSearchParameters()
 		options.begin = 1;
 		options.end = options.begin + options.periods - 1;
 	}
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
 // -----------------------------------
@@ -448,7 +452,8 @@ function getComparison()
 		if (0 == count)
 		{
 			$("#ladda").html("");
-			$("#total").text("Species not found");
+			$("#heading").text("Species not found");
+			$("#total").text("");
 			$("#container").html("");
 			return;
 		}
@@ -550,7 +555,8 @@ function getTaxon() {
 		if (0 == count)
 		{
 			$("#ladda").html("");
-			$("#total").text("Species not found");
+			$("#heading").text("Species not found");
+			$("#total").text("");
 			$("#container").html("");
 			return;
 		}

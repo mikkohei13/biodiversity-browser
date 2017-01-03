@@ -39,8 +39,7 @@ MUST (before release)
 - Info texts
 
 SHOULD
-- Map
-	- circle color, proportional to doc_count?
+- Refactor navigation
 - Warming the index / cache <https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-request-cache.html>
 - Repo documentation
 - Autocomplete species name (Elasticsearch suggestions?)
@@ -52,7 +51,7 @@ SHOULD
 	- use same div for all results (chart/map/class)?
 
 NICE
-
+- Map circle color, proportional to doc_count?
 - URL Routing (Ember?)
 - Favicon
 
