@@ -52,6 +52,8 @@ function navigateTo(id)
 	// Change tab
 	$(".active").removeClass("active");
 	document.getElementById(id).className = "active";
+//	$("#mymap").removeClass("active");	
+
 	clearResults();
 
 	console.log("Tab " + id);
@@ -64,6 +66,8 @@ function navigateTo(id)
 		showElement("#namesearch");
 		showElement("#comparison");
 		showElement("#aggrtype");
+		showElement("#container");
+		hideElement("#mymap");
 	}
 	else if ("mappage" == id)
 	{
@@ -73,6 +77,8 @@ function navigateTo(id)
 		showElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
+		hideElement("#container");
+		showElement("#mymap");
 	}
 	else if ("classpage" == id)
 	{
@@ -82,6 +88,8 @@ function navigateTo(id)
 		hideElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
+		showElement("#container");
+		hideElement("#mymap");
 	}
 	else if ("sourcepage" == id)
 	{
@@ -91,6 +99,8 @@ function navigateTo(id)
 		hideElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
+		showElement("#container");
+		hideElement("#mymap");
 	}
 	else if ("aboutpage" == id)
 	{
@@ -100,6 +110,8 @@ function navigateTo(id)
 		hideElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
+		showElement("#container");
+		hideElement("#mymap");
 
 		updateTemplate("about-page", "container", {});
 	}
@@ -123,12 +135,14 @@ function showElement(id)
 {
 	$(id).addClass("show");
 	$(id).removeClass("hide");
+	console.log("SHOW " + id);
 }
 
 function hideElement(id)
 {
 	$(id).addClass("hide");
 	$(id).removeClass("show");
+	console.log("Hide " + id);
 }
 
 // -----------------------------------
@@ -143,16 +157,11 @@ function initSpeciesSearch()
 		doTotalsSearch();
 	}
 	else {
-		if ("chartpage" == options.activePage)
-		{
+		if ("chartpage" == options.activePage) {
 			doSpeciesChartSearch();
 		}
-		else if("mappage" == options.activePage)
-		{
-			// Todo: call map search function
-			// THESE ARE TEMP / DEBUG:
+		else if("mappage" == options.activePage) {
 			initMap();
-//			$("#ladda").html("");
 		}
 	}
 }

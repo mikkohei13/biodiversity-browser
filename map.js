@@ -13,7 +13,7 @@ function initMap()
     if (undefined == mymap)
     {
         // http://stackoverflow.com/questions/37166172/mapbox-tiles-and-leafletjs
-        mymap = L.map('container').setView([60, 14], 5);
+        mymap = L.map('mymap').setView([60, 14], 5);
         L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             maxZoom: 18,
@@ -30,24 +30,6 @@ function initMap()
     }
 
     getTaxonMap();
-
-    /*
-    let circle = L.circle([57.786, 14.218], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 100
-    }).addTo(mymap);
-    circle.bindPopup("NNN occurrences");
-
-    let circle2 = L.circle([57.78, 14.21], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 200
-    }).addTo(mymap);
-    circle2.bindPopup("YYY occurrences");
-    */
 }
 
 
@@ -75,22 +57,23 @@ function getTaxonMap()
     let callback = function(elasticData) {
 
         let count = elasticData.hits.total;
-        if (0 == count)
-        {
+        if (0 == count) {
+            console.log("DATA MISSING, count == " + count);
             $("#ladda").html("");
             $("#total").text("Species not found");
             $("#container").html("");
-            return;
         }
+        else {
+            console.log("FOUND DATA, count == " + count);
+            // Leaflet map
+            console.log("Mapdata:");
+            console.log(elasticData);
+            drawMap(elasticData);
 
-        // Leaflet map
-        console.log("Mapdata:");
-        console.log(elasticData);
-        drawMap(elasticData);
-
-        // Show count
-        let countFormatted = count.toLocaleString();
-        $("#total").text(countFormatted + " occurrences");
+            // Show count
+            let countFormatted = count.toLocaleString();
+            $("#total").text(countFormatted + " occurrences");
+        }
     };
 
     elasticQueryModule.query(queryObject, callback);
@@ -107,6 +90,7 @@ function drawMap(elasticData) {
 
     circleGroup = L.layerGroup(circles);
     circleGroup.addTo(mymap);
+
     $("#ladda").html("");
 }
 

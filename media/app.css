@@ -34,12 +34,6 @@ $color5: rgba(54, 55, 50, 1); jet (dark gray)
 
 */
 
-#mapid
-{
-	height: 350px;
-		display: none;
-}
-
 #form
 {
 	background-color: rgba(232, 235, 228, 1);
@@ -162,6 +156,11 @@ h1 {
 
 .show
 {
+	display: block !important;
+}
+
+#form .show
+{
 	display: table-cell !important;
 }
 
@@ -194,7 +193,8 @@ h1 {
 	height: 1em;
 	margin: 2px;
 }
-#container
+
+#mymap, #container
 {
 	 width:90%;
 	 height:400px;

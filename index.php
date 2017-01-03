@@ -69,8 +69,8 @@ if ("significant" != $_GET['type']) {
 			<div id="results">
 				<h2 id="heading"></h2>
 				<span id="total"></span>
-				<div id="mapid"></div>
 				<div id="container"></div>
+				<div id="mymap"></div>
 			</div>
 
 		</div>
