@@ -194,11 +194,18 @@ h1 {
 	margin: 2px;
 }
 
-#mymap, #container
+#container
 {
-	 width:90%;
 	 height:400px;
+	 	border: 1px solid blue;
 }
+
+#mymap
+{
+	min-height: 300px;
+		border: 1px solid lime;
+}
+
 #ladda
 {
 	margin-top: 5px;
@@ -225,4 +232,21 @@ h1 {
 #results
 {
 	clear: both;
+	position: relative;
+}
+#mappage #heading
+{
+	position: absolute;
+	top: 10px;
+	left: 55px;
+	z-index: 999;
+	margin: 0;
+}
+#mappage #total
+{
+	position: absolute;
+	top: 45px;
+	left: 55px;
+	z-index: 999;
+	margin: 0;
 }

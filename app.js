@@ -14,12 +14,11 @@ let options = {};
 // Page load
 $(document).ready(function() {
     options.activePage = "chartpage";
+	$("body").attr("id", "chartpage");
+	hideElement("#mymap");
+
 	doTotalsSearch();
 //	options.species = "Luscinia luscinia"; getTaxon(); $("#heading").text("Debugging with " + options.species); return; // DEBUG
-
-//	Testing Leaflet map
-//	setMap();
-
 });
 
 
@@ -61,6 +60,7 @@ function navigateTo(id)
 	if ("chartpage" == id)
 	{
 		options.activePage = "chartpage";
+		$("body").attr("id", "chartpage");
 		doTotalsSearch();
 
 		showElement("#namesearch");
@@ -72,18 +72,21 @@ function navigateTo(id)
 	else if ("mappage" == id)
 	{
 		options.activePage = "mappage";
-	    clearMap();
-		$("#heading").html("Aggregated map");
+		$("body").attr("id", "mappage");
+		$("#heading").html("");
 
 		showElement("#namesearch");
 		hideElement("#comparison");
 		hideElement("#aggrtype");
 		hideElement("#container");
 		showElement("#mymap");
+
+	    clearMap(); // this has to be done last, so that height adjustement goes right
 	}
 	else if ("classpage" == id)
 	{
 		options.activePage = "classpage";
+		$("body").attr("id", "classpage");
 		doClassSearch();
 
 		hideElement("#namesearch");
@@ -95,6 +98,7 @@ function navigateTo(id)
 	else if ("sourcepage" == id)
 	{
 		options.activePage = "sourcepage";
+		$("body").attr("id", "sourcepage");
 		doSourceSearch();
 
 		hideElement("#namesearch");
@@ -106,6 +110,7 @@ function navigateTo(id)
 	else if ("aboutpage" == id)
 	{
 		options.activePage = "aboutpage";
+		$("body").attr("id", "aboutpage");
 		$("#heading").html("About this site");
 
 		hideElement("#namesearch");
