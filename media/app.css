@@ -1,22 +1,5 @@
 /*
 Coolors Exported Palette
-coolors.co/47e5bc-c1bddb-a2c7e5-6369d1-303a2b
-
-$color1: hsla(164%, 75%, 59%, 1);
-$color2: hsla(248%, 29%, 80%, 1);
-$color3: hsla(207%, 56%, 77%, 1);
-$color4: hsla(237%, 54%, 60%, 1);
-$color5: hsla(100%, 15%, 20%, 1);
-
-$color1: rgba(71, 229, 188, 1); turquoise
-$color2: rgba(193, 189, 219, 1); lavender gray
-$color3: rgba(162, 199, 229, 1); pale cerulean
-$color4: rgba(99, 105, 209, 1); slate blue
-$color5: rgba(48, 58, 43, 1); black leather jacket
-
---
-
-Coolors Exported Palette
 https://coolors.co/006aa7-fecc00-e8ebe4-d6d9ce-363732
 
 $color1: hsla(202%, 100%, 33%, 1);
@@ -31,7 +14,6 @@ $color3: rgba(232, 235, 228, 1); platinum (very light grey)
 rgba(244, 247, 240, 1); (very very light grey)
 $color4: #91918F; spanish gray (light grey)
 $color5: rgba(54, 55, 50, 1); jet (dark gray)
-
 */
 
 #form
@@ -71,15 +53,6 @@ $color5: rgba(54, 55, 50, 1); jet (dark gray)
 	color: #000;
 }
 
-/* Swedish flag colors */
-/*
-#form,
-#nav .active
-{
-	background-color: rgba(254, 204, 0, 1);
-}
-*/
-
 body
 {
 	padding: 0;
@@ -107,13 +80,6 @@ header
 
 header
 {
-/*	border-right: 20px solid rgba(254, 204, 0, 1);*/
-/*
-	background-image: url("media/scandinavia.png");
-	background-position: top right;
-	background-repeat: repeat-y;
-	background-color: rgba(0, 106, 167, 1);
-*/
 	background: rgba(0, 106, 167, 1) url("scandinavia.png") repeat-y right top;
 }
 
