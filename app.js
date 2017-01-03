@@ -18,6 +18,15 @@ $(document).ready(function() {
 	hideElement("#mymap");
 
 	doTotalsSearch();
+
+	// IE version check
+	var version = detectIE();
+	if (version !== false && version < 11)
+	{
+	  $("#heading").html("Note: this site doesn't work properly with Internet Explorer 10 or older.");
+	}
+	console.log(version);
+
 //	options.species = "Luscinia luscinia"; getTaxon(); $("#heading").text("Debugging with " + options.species); return; // DEBUG
 });
 

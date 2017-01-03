@@ -15,6 +15,7 @@
 	    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
 	    <script src="node_modules/leaflet/dist/leaflet.js"></script>
 	    <script src="node_modules/latlon-geohash/latlon-geohash.js"></script>
+	    <script src="browser-detect.js"></script>
 
 		</script>
 	</head>

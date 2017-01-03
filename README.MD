@@ -34,11 +34,9 @@ Technical Todo
 
 MUST (before release)
 - Browser requirements? (let?)
-- Test with FF, IE, Edge
-- About page content - proofread
-- Info texts
 
 SHOULD
+- Test more with Chrome, FF, IE, Edge
 - Refactor navigation, modularize
 - Repo documentation
 - Autocomplete species name (Elasticsearch suggestions?)
@@ -51,6 +49,7 @@ SHOULD
 	- total -> info
 
 NICE
+- Logging
 - Map circle color, proportional to doc_count?
 - URL Routing (Ember?)
 - Favicon
