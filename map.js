@@ -4,6 +4,7 @@
 
 var mymap;
 var circleGroup;
+var largestDoc_count;
 
 function initMap()
 {
@@ -12,7 +13,7 @@ function initMap()
     if (undefined == mymap)
     {
         // http://stackoverflow.com/questions/37166172/mapbox-tiles-and-leafletjs
-        mymap = L.map('container').setView([57.78670, 14.21844], 13);
+        mymap = L.map('container').setView([60, 14], 5);
         L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             maxZoom: 18,
@@ -25,6 +26,7 @@ function initMap()
     if (undefined != circleGroup)
     {
         mymap.removeLayer(circleGroup);
+        largestDoc_count = undefined;
     }
 
     getTaxonMap();
@@ -112,15 +114,22 @@ function createMarker(bucket)
 {
     let coordinateObject = Geohash.decode(bucket.key);
 
-    let size = (bucket.doc_count);
+    if (undefined == largestDoc_count)
+    {
+        largestDoc_count = bucket.doc_count;
+        console.log(largestDoc_count);
+    }
+    let size = Math.floor(bucket.doc_count / largestDoc_count * 15000);
+    console.log("size:" + size)
+
     let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5,
         radius: size
     })
-    console.log(circle);
-    circle.bindPopup(bucket.doc_count + " occurrences");
+//    console.log(circle);
+    circle.bindPopup(bucket.doc_count + " occurrences / size: " + size);
     return circle;
 }
 
