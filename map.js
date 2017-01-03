@@ -102,12 +102,14 @@ function drawMap(elasticData) {
 //      console.log(buckets[i]);
         coordinateObject = Geohash.decode(buckets[i].key);
 
+        let size = (buckets[i].doc_count);
         let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: 200
+            radius: size
         })
+        console.log(circle);
         circle.bindPopup(buckets[i].doc_count + " occurrences");
         circles.push(circle);
     }

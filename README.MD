@@ -36,6 +36,8 @@ MUST (before release)
 
 SHOULD
 - Map
+	- circle size, proportional to doc_count
+	- use separate element for map?
 - Warming the index / cache <https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-request-cache.html>
 - Repo documentation
 - Autocomplete species name (Elasticsearch suggestions?)
