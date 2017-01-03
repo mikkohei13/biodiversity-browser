@@ -100,23 +100,28 @@ function drawMap(elasticData) {
 
     for (let i = 0; i < buckets.length; i++) {
 //      console.log(buckets[i]);
-        coordinateObject = Geohash.decode(buckets[i].key);
-
-        let size = (buckets[i].doc_count);
-        let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: size
-        })
-        console.log(circle);
-        circle.bindPopup(buckets[i].doc_count + " occurrences");
-        circles.push(circle);
+        circles.push(createMarker(buckets[i]));
     }
 
     circleGroup = L.layerGroup(circles);
     circleGroup.addTo(mymap);
     $("#ladda").html("");
+}
+
+function createMarker(bucket)
+{
+    let coordinateObject = Geohash.decode(bucket.key);
+
+    let size = (bucket.doc_count);
+    let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: size
+    })
+    console.log(circle);
+    circle.bindPopup(bucket.doc_count + " occurrences");
+    return circle;
 }
 
 
