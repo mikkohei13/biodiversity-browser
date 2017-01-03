@@ -17,6 +17,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?acce
     accessToken: mapboxAccessToken
 }).addTo(mymap);
 
+/*
 let circle = L.circle([57.786, 14.218], {
     color: 'red',
     fillColor: '#f03',
@@ -32,6 +33,7 @@ let circle2 = L.circle([57.78, 14.21], {
     radius: 200
 }).addTo(mymap);
 circle2.bindPopup("YYY occurrences");
+*/
 
 
 function getTaxonMap()
@@ -69,6 +71,7 @@ function getTaxonMap()
         // Leaflet map
         console.log("Mapdata:");
         console.log(elasticData);
+        drawMap(elasticData);
 
         // Show count
         let countFormatted = count.toLocaleString();
@@ -77,3 +80,23 @@ function getTaxonMap()
 
     elasticQueryModule.query(queryObject, callback);
 }
+
+function drawMap(elasticData) {
+    let buckets = elasticData.aggregations.grid.buckets;
+
+    for (let i = 0; i < buckets.length; i++) {
+//      console.log(buckets[i]);
+        coordinateObject = Geohash.decode(buckets[i].key);
+
+let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 200
+}).addTo(mymap);
+circle.bindPopup(buckets[i].doc_count + " occurrences");
+
+    }
+}
+
+
