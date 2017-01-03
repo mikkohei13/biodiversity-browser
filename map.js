@@ -38,7 +38,6 @@ function clearMap() {
     let formBottom = $("#form").offset().top + $("#form").height(); // Calculate using form element, because mymap gives oddly large top value
     let mapHeight = $(window).height() - formBottom - 40; // margins
     $("#mymap").height(mapHeight);
-    console.log("Adjusted map height to " + mapHeight);
 }
 
 

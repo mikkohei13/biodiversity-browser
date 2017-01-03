@@ -141,14 +141,12 @@ function showElement(id)
 {
 	$(id).addClass("show");
 	$(id).removeClass("hide");
-	console.log("SHOW " + id);
 }
 
 function hideElement(id)
 {
 	$(id).addClass("hide");
 	$(id).removeClass("show");
-	console.log("Hide " + id);
 }
 
 // -----------------------------------

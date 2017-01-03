@@ -16,7 +16,7 @@ var elasticQueryModule = (function () {
 	// Do Elasticsearch query using jQuery AJAX, call callback function
 	function query(queryObject, callbackFunction)
 	{
-		console.log(queryObject);
+//		console.log(queryObject);
 		let queryJSON = JSON.stringify(queryObject);
 		$.ajax(getAjaxParams(queryJSON)).done(callbackFunction);
 	}
