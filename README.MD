@@ -19,11 +19,15 @@ Ideas
 - Species monthly chart
 - Species yearly chart, compared to higher taxonomy
 - Aggragation & interesting species for a given year & class and institution
-
-**Todo**
-
 - Clustered map
 
+**Could do**
+
+- Filter by country
+- Filter by years
+- Filter by month (to find e.g. breeding observations)
+- Show proportional numbers on map
+- Linkable URL's
 
 Technical Todo
 --------------
@@ -37,8 +41,6 @@ MUST (before release)
 SHOULD
 - Map
 	- circle color, proportional to doc_count?
-	- use separate element for map?
-	- if species not found, map becomes unavailable
 - Warming the index / cache <https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-request-cache.html>
 - Repo documentation
 - Autocomplete species name (Elasticsearch suggestions?)

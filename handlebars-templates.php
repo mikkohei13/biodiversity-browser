@@ -14,9 +14,9 @@
     <ul>
 	    <li>Species records per year: absolute numbers, or proportionally to a higher taxon (class, order or family; for adjustement to changing observation effort over the years)</li>
 	    <li>Species records per month: absolute numbers or proportionally
+        <li>Aggregated species distribution maps
 	    <li>Largest data sources, and search significant species from each</li>
 	    <li>Largest classes, and search significant species from each per year</li>
-	    <li>Aggregated species distribution maps (UNDER DEVELOPMENT)
     </ul>
 
     <p>The data is stored into an Elasticsearch server, which enables fast searches and aggregations. The browser connects directly to Elasticsearch and formats the results for displaying (with JavaScript, jQuery, Highcharts, Handlebars.js and Leaflet). <a href="https://github.com/mikkohei13/biodiversity-browser">Source code for the Biodiversity Browser is available on Github</a>.
