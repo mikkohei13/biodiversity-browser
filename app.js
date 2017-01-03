@@ -252,7 +252,8 @@ function doClassSearch() {
 		// Show count
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
-		$("#total").text(countFormatted + " occurrences, out of which " + Math.round(topcount / count * 100 * 10) / 10 + " % from these top classes:");
+//		$("#total").text(countFormatted + " occurrences, out of which " + Math.round(topcount / count * 100 * 10) / 10 + " % from these top classes:");
+		updateTemplate("source-page", "total", {total: countFormatted, percent: (Math.round(topcount / count * 100 * 10) / 10) });
 
 		// Significance query event handler
 		$("#container").before("<div id='containerresults'></div>");
@@ -303,7 +304,6 @@ function doSourceSearch() {
 		let count = elasticData.hits.total;
 		let countFormatted = count.toLocaleString();
 		//$("#total").text(countFormatted + " occurrences, out of which " + Math.round(topcount / count * 100 * 10) / 10 + " % from these top institutions:");
-
 		updateTemplate("source-page", "total", {total: countFormatted, percent: (Math.round(topcount / count * 100 * 10) / 10) });
 
 		// Significance query event handler

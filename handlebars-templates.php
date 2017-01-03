@@ -27,8 +27,13 @@
   </div>
 </script>
 
+<script id="class-page" type="text/x-handlebars-template">
+  Total of {{total}} occurrence records, out of which {{percent}} % from these taxonomical classes.<br>
+  Clicking a name shows which species occur uncommonly often during each year 2005-2015 (% of all records of the species).
+</script>
+
 <script id="source-page" type="text/x-handlebars-template">
-  Total of {{total}} occurrence records, out of which {{percent}} % from these top institutions.<br>
+  Total of {{total}} occurrence records, out of which {{percent}} % from these institutions.<br>
   Clicking a name shows which species occur uncommonly often in that institution's data (% of all records of the species).
 </script>
 
