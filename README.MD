@@ -39,21 +39,22 @@ MUST (before release)
 - Info texts
 
 SHOULD
-- Refactor navigation
-- Warming the index / cache <https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-request-cache.html>
+- Refactor navigation, modularize
 - Repo documentation
 - Autocomplete species name (Elasticsearch suggestions?)
-- Addresses for tabs (browser history?)
+- Addresses for tabs & species (+browser history?)
 - Templating (Handlebars/Ember)
 - Refactor names:
 	- getmonths -> getperiods
 	- get -> do
 	- use same div for all results (chart/map/class)?
+	- total -> info
 
 NICE
 - Map circle color, proportional to doc_count?
 - URL Routing (Ember?)
 - Favicon
+- Mobile...
 
 
 **Site logical structure draft:**

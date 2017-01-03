@@ -26,3 +26,9 @@
     <p><em><a href="https://www.biomi.org/">Mikko Heikkinen / biomi.org</a></em>
   </div>
 </script>
+
+<script id="source-page" type="text/x-handlebars-template">
+  Total of {{total}} occurrence records, out of which {{percent}} % from these top institutions.<br>
+  Clicking a name shows which species occur uncommonly often in that institution's data (% of all records of the species).
+</script>
+

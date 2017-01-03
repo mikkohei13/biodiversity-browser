@@ -61,7 +61,7 @@
 
 			<div id="results">
 				<h2 id="heading"></h2>
-				<span id="total"></span>
+				<div id="total"></div>
 				<div id="container"></div>
 				<div id="mymap"></div>
 			</div>
