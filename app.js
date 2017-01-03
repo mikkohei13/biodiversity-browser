@@ -68,9 +68,7 @@ function navigateTo(id)
 	else if ("mappage" == id)
 	{
 		options.activePage = "mappage";
-//		setMap();
 		$("#heading").html("Aggregated map");
-		$("#container").html("Map under construction...");
 
 		showElement("#namesearch");
 		hideElement("#comparison");
@@ -153,8 +151,7 @@ function initSpeciesSearch()
 		{
 			// Todo: call map search function
 			// THESE ARE TEMP / DEBUG:
-			options.species = $("#species").val();
-			getTaxonMap();
+			initMap();
 //			$("#ladda").html("");
 		}
 	}
