@@ -1,4 +1,3 @@
-<?php $version = "?v=" . date("YmdHis"); ?>
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 	<head>
@@ -8,10 +7,9 @@
 		<link rel="shortcut icon" href="favicon.ico">
 
 		<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
-		<link rel="stylesheet" href="media/app.css<?php echo $version; ?>" media="all" />
+		<link rel="stylesheet" href="media/app.css" media="all" />
 		<link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css" media="all" />
 
-	    <script src="keys.js<?php echo $version; ?>"></script>
 	    <script src="node_modules/jquery/dist/jquery.min.js"></script>
 	    <script src="node_modules/highcharts/highcharts.js"></script>
 	    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
@@ -68,9 +66,10 @@
 
 		</div>
 
-		<script src="elasticquery.js<?php echo $version; ?>"></script>
-		<script src="map.js<?php echo $version; ?>"></script>
-		<script src="app.js<?php echo $version; ?>"></script>
-		<?php include_once "handlebars-templates.php"; ?>
+		<?php include "handlebars-templates.html"; ?>
+	    <script src="keys.js"></script>
+		<script src="elasticquery.js"></script>
+		<script src="map.js"></script>
+		<script src="app.js"></script>
 	</body>
 </html>
