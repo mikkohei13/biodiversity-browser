@@ -196,14 +196,12 @@ h1 {
 
 #container
 {
-	 height:400px;
-	 	border: 1px solid blue;
+	 min-height: 400px;
 }
 
 #mymap
 {
 	min-height: 300px;
-		border: 1px solid lime;
 }
 
 #ladda
