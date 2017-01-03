@@ -13,7 +13,7 @@ function initMap()
     if (undefined == mymap)
     {
         // http://stackoverflow.com/questions/37166172/mapbox-tiles-and-leafletjs
-        mymap = L.map('mymap').setView([60, 14], 5);
+        mymap = L.map('mymap').setView([62, 13], 5);
         L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             maxZoom: 18,
@@ -113,15 +113,18 @@ function createMarker(bucket)
     {
         largestDoc_count = bucket.doc_count;
     }
-    let size = Math.floor(bucket.doc_count / largestDoc_count * 15000);
+
+//    let radius = Math.floor(bucket.doc_count / largestDoc_count * 15000); // radius grows linearly
+    let radius = Math.sqrt(bucket.doc_count / largestDoc_count / Math.PI) * 20000; // Area grows linearly
 
     let circle = L.circle([coordinateObject.lat, coordinateObject.lon], {
         color: '#006AA7',
         fillColor: '#006AA7',
         fillOpacity: 0.5,
-        radius: size
+        weight: 1,
+        radius: Math.floor(radius)
     })
-//    console.log(circle);
+//    console.log("r = " + radius);
     circle.bindPopup(bucket.doc_count + " occurrences");
     return circle;
 }
