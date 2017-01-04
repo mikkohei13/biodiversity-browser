@@ -182,7 +182,8 @@ function initSpeciesSearch()
 
 function doSpeciesChartSearch()
 {
-	initSearchParameters();
+	initAggregationParameters();
+	options.species = capitalizeFirstLetter($("#species").val());
 
 	let rank = $('input[name=rank]:checked').val();
 	if (rank == "no") {
@@ -195,10 +196,8 @@ function doSpeciesChartSearch()
 	$("#heading").text(options.species);
 }
 
-function initSearchParameters()
+function initAggregationParameters()
 {
-	options.species = capitalizeFirstLetter($("#species").val());
-
 	let aggrType = $('input[name=aggrtype]:checked').val();
 
 	if ("year" == aggrType)
