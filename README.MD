@@ -39,6 +39,7 @@ CHECK
 - default size in geohash queries??
 - making two queries on arrival?
 - Set slowlog threshold / delete old log files (/var/log/elasticsearch)
+- use elastic on port 80? (https://gist.github.com/m5m1th/6870a54717c0387468c3)
 
 SHOULD
 - Test more with Chrome, FF, IE, Edge
