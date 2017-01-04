@@ -35,6 +35,11 @@ Technical Todo
 MUST (before release)
 - Browser requirements? (let?)
 
+CHECK
+- default size in geohash queries??
+- making two queries on arrival?
+- Set slowlog threshold / delete old log files (/var/log/elasticsearch)
+
 SHOULD
 - Test more with Chrome, FF, IE, Edge
 - Refactor navigation, modularize
@@ -63,3 +68,20 @@ Site: total & data sources
 - Species maps (remembers species selection)
 - Classes (& significant species)
 - About
+
+Logging
+-----
+
+Log files at /var/log/elasticsearch
+
+**Enable slowlog:**
+
+curl -XPUT http://USER:PASS@213.32.16.197:9200/se-all/_settings -d '{
+	"index.search.slowlog.threshold.query.debug" : "100ms"
+}'
+
+**Disable slowlog:**
+
+curl -XPUT http://USER:PASS@213.32.16.197:9200/se-all/_settings -d '{
+	"index.search.slowlog.threshold.query.debug" : -1
+}'
