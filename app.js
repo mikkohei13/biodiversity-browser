@@ -1,10 +1,5 @@
-
 /*
-DOCS:
-Objective: Show occurrence count data on single species, either absolute, or proportional to a higher taxon.
-Most variables are handled with the globar object options. 
-Variables regarding Highcharts are handled with function arguments, so that creating several charts is possible.
-
+NOTE: This is a proof of concept system that is still a work in progress. Future plans on code refactoring are listed in the README.MD file.
 */
 "use strict";
 

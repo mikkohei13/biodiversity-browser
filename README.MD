@@ -4,12 +4,15 @@ Biodiversity Browser
 Tools to browse, analyze and visualize GBIF occurrence data from Elasticsearch.
 
 Purposes:
+- Test how much data can be handles efficiently with Elasticsearch and an inexpensive server
 - Show species occurrence trends over the years
 - Show species phenology
 - Show species distribution on a map
 - Show basic metadata about the data (sources, higher classification)
 - Demonstrate Elasticsearch's signifigance search, which could be used to pinpoint uncommon occurences of species
-- Find out uncommon traits of the data
+- Find out uncommon traits of the data (check e.g. Circus aeroginosus yearly chart)
+
+Data is indexed to Elasticsearch with https://github.com/mikkohei13/darwincore-php
 
 Ideas
 -----
@@ -32,16 +35,20 @@ Ideas
 Technical Todo
 --------------
 
-MUST (before release)
-- Browser requirements? (let?)
+REFACTORING
+- Navigation & URL routing
+- Templates with Handlebars
+- Modularize data fetching, map creation, chart creation
 
 CHECK
+- Browser requirements? (let?)
 - default size in geohash queries??
 - making two queries on arrival?
 - Set slowlog threshold / delete old log files (/var/log/elasticsearch)
 - use elastic on port 80? (https://gist.github.com/m5m1th/6870a54717c0387468c3)
 
 SHOULD
+- iOS 9 support?
 - Test more with Chrome, FF, IE, Edge
 - Refactor navigation, modularize
 - Repo documentation
@@ -61,14 +68,6 @@ NICE
 - Favicon
 - Mobile...
 
-
-**Site logical structure draft:**
-
-Site: total & data sources
-- Species charts
-- Species maps (remembers species selection)
-- Classes (& significant species)
-- About
 
 Logging
 -----
